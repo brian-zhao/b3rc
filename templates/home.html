@@ -1,0 +1,35 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>B3RC — B3 Running Club</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <img src="{% static 'images/logo.png' %}" alt="B3RC Logo" style="max-width: 80px; margin-bottom: 10px;">
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Activities</a></li>
+                    <li><a href="#">Sponsors</a></li>
+                    <li><a href="#">Find Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+    </main>
+</body>
+</html>

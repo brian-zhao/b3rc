@@ -1,0 +1,1 @@
+from b3rc_site.wsgi import application
