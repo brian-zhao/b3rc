@@ -3,8 +3,8 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background: #f5eaff;
-    color: #1a0630;
+    background: white;
+    color: #000000;
 }
 
 /* ── Navbar ── */
@@ -12,7 +12,7 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #2d1060;
+    background-color: #000000;
     padding: 10px 0;
     color: white;
     box-shadow: 0 2px 12px rgba(45, 16, 96, 0.2);
@@ -93,7 +93,7 @@ body {
     max-width: 900px;
     margin: 0 auto;
     padding: 0 20px;
-    color: #1a0630;
+    color: #000000;
 }
 
 .section-title {
@@ -101,14 +101,14 @@ body {
     font-weight: 700;
     letter-spacing: 0.05em;
     text-align: center;
-    color: #2d1060;
+    color: #000000;
     margin-bottom: 24px;
 }
 
 .about-intro {
     font-size: 1.05em;
     line-height: 1.8;
-    color: rgba(26, 6, 48, 0.8);
+    color: rgba(0, 0, 0, 0.8);
     text-align: center;
     margin-bottom: 48px;
 }
@@ -116,7 +116,7 @@ body {
 .about-subtitle {
     font-size: 1.2em;
     font-weight: 700;
-    color: #6d28d9;
+    color: #000000;
     letter-spacing: 0.04em;
     margin: 0 0 16px;
 }
@@ -124,7 +124,7 @@ body {
 .about-body {
     font-size: 0.97em;
     line-height: 1.8;
-    color: rgba(26, 6, 48, 0.75);
+    color: rgba(0, 0, 0, 0.75);
     margin-bottom: 40px;
 }
 
@@ -137,7 +137,7 @@ body {
 
 .about-feature {
     background: white;
-    border: 1px solid rgba(109, 40, 217, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: 12px;
     padding: 24px 22px;
 }
@@ -145,7 +145,7 @@ body {
 .about-feature h4 {
     font-size: 0.95em;
     font-weight: 700;
-    color: #6d28d9;
+    color: #000000;
     letter-spacing: 0.06em;
     margin: 0 0 10px;
     text-transform: uppercase;
@@ -154,13 +154,13 @@ body {
 .about-feature p {
     font-size: 0.9em;
     line-height: 1.7;
-    color: rgba(26, 6, 48, 0.7);
+    color: rgba(0, 0, 0, 0.7);
     margin: 0;
 }
 
 .about-cta {
     background: white;
-    border: 1px solid rgba(109, 40, 217, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: 12px;
     padding: 36px 32px;
 }
@@ -172,7 +172,7 @@ body {
 .about-tagline {
     font-size: 1em;
     font-weight: 700;
-    color: #6d28d9;
+    color: #000000;
     letter-spacing: 0.04em;
     margin: 0;
 }
@@ -185,7 +185,7 @@ body {
 }
 
 .activities-title {
-    color: #2d1060;
+    color: #000000;
     font-size: 1.8em;
     font-weight: 700;
     letter-spacing: 0.05em;
@@ -201,17 +201,17 @@ body {
 
 .activity-card {
     background: white;
-    border: 1px solid rgba(109, 40, 217, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: 12px;
     padding: 32px 28px;
-    color: #1a0630;
+    color: #000000;
 }
 
 .activity-card h3 {
     font-size: 1.1em;
     font-weight: 700;
     letter-spacing: 0.08em;
-    color: #6d28d9;
+    color: #000000;
     margin: 0 0 14px;
 }
 
@@ -219,13 +219,13 @@ body {
     margin: 6px 0;
     font-size: 0.95em;
     line-height: 1.6;
-    color: rgba(26, 6, 48, 0.8);
+    color: rgba(0, 0, 0, 0.8);
 }
 
 .activity-time,
 .activity-location {
     font-size: 0.9em !important;
-    color: rgba(26, 6, 48, 0.5) !important;
+    color: rgba(0, 0, 0, 0.5) !important;
 }
 
 /* ── Sponsors Section ── */
@@ -233,12 +233,12 @@ body {
     max-width: 900px;
     margin: 0 auto;
     padding: 0 20px;
-    color: #1a0630;
+    color: #000000;
 }
 
 .sponsors-cta {
     background: white;
-    border: 1px solid rgba(109, 40, 217, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: 12px;
     padding: 36px 32px;
     text-align: center;
@@ -249,7 +249,7 @@ body {
     margin-top: 8px;
     padding: 12px 32px;
     border-radius: 8px;
-    background: #6d28d9;
+    background: black;
     color: white;
     font-weight: 700;
     font-size: 0.95em;
@@ -277,7 +277,7 @@ body {
 
 .findus-card {
     background: white;
-    border: 1px solid rgba(109, 40, 217, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: 12px;
     overflow: hidden;
 }
@@ -290,7 +290,7 @@ body {
     font-size: 1em;
     font-weight: 700;
     letter-spacing: 0.08em;
-    color: #6d28d9;
+    color: #000000;
     margin: 0 0 10px;
 }
 
@@ -298,7 +298,7 @@ body {
     margin: 4px 0;
     font-size: 0.95em;
     line-height: 1.6;
-    color: rgba(26, 6, 48, 0.8);
+    color: rgba(0, 0, 0, 0.8);
 }
 
 .findus-map {
