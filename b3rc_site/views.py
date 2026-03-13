@@ -11,3 +11,11 @@ def about(request):
 
 def activities(request):
     return render(request, 'activities.html')
+
+
+def find_us(request):
+    return render(request, 'find_us.html')
+
+
+def sponsors(request):
+    return render(request, 'sponsors.html')

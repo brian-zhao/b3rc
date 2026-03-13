@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Find Us — B3RC{% endblock %}
+
+{% block content %}
+<main class="container page-content">
+    <section class="findus-section">
+        <h2 class="section-title">Find Us</h2>
+        <p class="about-intro">We meet at two locations each week. Come find us.</p>
+
+        <div class="findus-grid">
+            <div class="findus-card">
+                <div class="findus-info">
+                    <h3>WEDNESDAY — QUALITY</h3>
+                    <p>Morning quality sessions on Wednesdays.</p>
+                    <p class="activity-location">📍 St Lukes Oval, Concord NSW</p>
+                </div>
+                <div class="findus-map">
+                    <iframe
+                        src="https://maps.google.com/maps?q=St+Lukes+Oval+Concord+NSW&output=embed&z=15"
+                        width="100%"
+                        height="300"
+                        style="border:0; border-radius: 8px;"
+                        allowfullscreen
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+
+            <div class="findus-card">
+                <div class="findus-info">
+                    <h3>SUNDAY — LONG RUN</h3>
+                    <p>The most important run in marathon training.</p>
+                    <p class="activity-time">🕖 7:00 AM</p>
+                    <p class="activity-location">📍 Rhodes Amphitheatre</p>
+                </div>
+                <div class="findus-map">
+                    <iframe
+                        src="https://maps.google.com/maps?q=Rhodes+Amphitheatre+Rhodes+NSW&output=embed&z=15"
+                        width="100%"
+                        height="300"
+                        style="border:0; border-radius: 8px;"
+                        allowfullscreen
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
