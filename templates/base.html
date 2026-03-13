@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}B3RC — B3 Running Club{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/">
+                <img src="{% static 'images/logo.png' %}" alt="B3RC Logo" style="max-width: 80px; margin-bottom: 10px;">
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/activities/">Activities</a></li>
+                    <li><a href="#">Sponsors</a></li>
+                    <li><a href="#">Find Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    {% block content %}{% endblock %}
+</body>
+</html>

@@ -1,87 +1,24 @@
+{% extends "base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>B3RC — B3 Running Club</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-    <div class="video-background">
-        <video autoplay muted loop playsinline webkit-playsinline>
-            <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
-        </video>
-        <div class="video-overlay"></div>
+{% block content %}
+<main>
+    <div class="hero">
+        <div class="video-background">
+            <video autoplay muted loop playsinline webkit-playsinline>
+                <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
     </div>
 
-    <header class="navbar">
-        <div class="nav-container">
-            <img src="{% static 'images/logo.png' %}" alt="B3RC Logo" style="max-width: 80px; margin-bottom: 10px;">
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#activities">Activities</a></li>
-                    <li><a href="#">Sponsors</a></li>
-                    <li><a href="#">Find Us</a></li>
-                </ul>
-            </nav>
+    <section class="home-intro">
+        <h2 class="section-title">B3 Running Club</h2>
+        <p class="about-intro">A performance-driven community based in Sydney, dedicated to runners chasing the most iconic milestones in amateur marathon running.</p>
+        <div class="home-cta-links">
+            <a href="/about/" class="cta-link">About Us</a>
+            <a href="/activities/" class="cta-link cta-link--secondary">Our Activities</a>
         </div>
-    </header>
-
-    <main class="container">
-        <div class="hero-spacer"></div>
-
-        <section id="about" class="about-section">
-            <h2 class="section-title">Breaking 3 Running Club</h2>
-            <p class="about-intro">Breaking 3 Running Club is a specialized, performance-driven community based in Sydney, dedicated to runners chasing the most iconic milestones in amateur marathon running. Whether you are hunting a sub-3-hour finish for men or a sub-3:15 mark for women, B3RC provides the structure, grit, and camaraderie needed to turn those ambitions into reality.</p>
-
-            <h3 class="about-subtitle">The Pursuit of Excellence</h3>
-            <p class="about-body">We believe that breaking these barriers requires more than just high mileage; it requires a strategic approach to training, recovery, and mindset. While our primary focus is helping athletes cross those specific time thresholds, our doors are open to everyone. If you have the drive to improve, a passion for the long game, and the heart to support your fellow runners, you belong with B3RC.</p>
-
-            <h3 class="about-subtitle">Why Run With B3RC?</h3>
-            <div class="about-features">
-                <div class="about-feature">
-                    <h4>Targeted Performance</h4>
-                    <p>Our collective energy is focused on the sub-3 and sub-3:15 benchmarks, creating a high-level training environment where every session counts.</p>
-                </div>
-                <div class="about-feature">
-                    <h4>Sydney-Based Community</h4>
-                    <p>From the hills of the Eastern Suburbs to the flat stretches of Olympic Park, we utilize the best of Sydney's terrain to build marathon-ready legs.</p>
-                </div>
-                <div class="about-feature">
-                    <h4>Inclusive but Ambitious</h4>
-                    <p>"Everyone is welcome" isn't just a slogan. We welcome runners of all backgrounds who are ready to commit to their personal bests.</p>
-                </div>
-                <div class="about-feature">
-                    <h4>The Power of the Pack</h4>
-                    <p>Just like race-day pacers, we hunt in packs. You'll never have to face a grueling 30km Sunday long run or a localized interval session alone.</p>
-                </div>
-            </div>
-
-            <div class="about-cta">
-                <h3 class="about-subtitle">Join the Journey</h3>
-                <p class="about-body">The road to a sub-3 or sub-3:15 marathon is long, often "a bit crazy," and incredibly rewarding. Don't chase the clock in isolation. Come be part of a vibrant, supportive, and disciplined community that understands exactly what it takes to reach the finish line ahead of the pack.</p>
-                <p class="about-tagline">B3RC: Your journey to the sub-3 mark starts here.</p>
-            </div>
-        </section>
-
-        <section id="activities" class="activities-section">
-            <h2 class="activities-title">Activities</h2>
-            <div class="activities-grid">
-                <div class="activity-card">
-                    <h3>WEDNESDAY — QUALITY</h3>
-                    <p>Morning quality sessions on Wednesdays.</p>
-                    <p class="activity-location">📍 St Lukes Oval, Concord NSW</p>
-                </div>
-                <div class="activity-card">
-                    <h3>SUNDAY — LONG RUN</h3>
-                    <p>The most important run in marathon training.</p>
-                    <p class="activity-time">🕖 7:00 AM</p>
-                    <p class="activity-location">📍 Rhodes Amphitheatre</p>
-                </div>
-            </div>
-        </section>
-    </main>
-</body>
-</html>
+    </section>
+</main>
+{% endblock %}

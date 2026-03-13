@@ -1,3 +1,12 @@
+/* ── Reset & base ── */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: #040e30;
+}
+
+/* ── Navbar ── */
 .navbar {
     position: fixed;
     top: 0;
@@ -15,12 +24,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-
-.logo {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: white;
 }
 
 .nav-links {
@@ -42,63 +45,96 @@
     color: #ffcc00;
 }
 
-/* Video Background Styles */
+/* ── Hero (home page) ── */
+.hero {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    padding: 0 10%;
+}
+
 .video-background {
-    position: fixed;
-    top: 110px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
+    position: relative;
+    width: 100%;
     max-width: 800px;
     height: calc(100vh - 120px);
-    z-index: -1;
-    overflow: hidden;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .video-background video {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 10px;
+    display: block;
 }
 
 .video-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(6, 23, 80, 0.4); /* Dark blue overlay for text readability */
+    inset: 0;
+    background: rgba(6, 23, 80, 0.4);
 }
 
-body {
-    margin: 0;
-    padding: 80px 0 0;
-    min-height: 100vh;
+/* ── Home intro (below hero) ── */
+.home-intro {
+    max-width: 700px;
+    margin: 80px auto;
+    padding: 0 20px;
+    text-align: center;
+    color: white;
+}
+
+.home-cta-links {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.cta-link {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95em;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    background: #ffcc00;
+    color: #061750;
+    transition: opacity 0.2s;
+}
+
+.cta-link:hover {
+    opacity: 0.85;
+}
+
+.cta-link--secondary {
     background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    color: white;
 }
 
+.cta-link--secondary:hover {
+    border-color: white;
+    opacity: 1;
+}
+
+/* ── Inner pages (about, activities) ── */
 .container {
     position: relative;
     z-index: 1;
 }
 
-.hero-spacer {
-    height: 100vh;
+.page-content {
+    padding-top: 120px;
+    padding-bottom: 80px;
 }
 
-
-
-
-/* About Section */
+/* ── About Section ── */
 .about-section {
     max-width: 900px;
     margin: 0 auto;
-    padding: 0 20px 80px;
+    padding: 0 20px;
     color: white;
 }
 
@@ -185,11 +221,11 @@ body {
     margin: 0;
 }
 
-/* Activities Section */
+/* ── Activities Section ── */
 .activities-section {
     max-width: 900px;
     margin: 0 auto;
-    padding: 0 20px 60px;
+    padding: 0 20px;
 }
 
 .activities-title {
@@ -237,14 +273,16 @@ body {
     color: rgba(255, 255, 255, 0.65) !important;
 }
 
-/* Responsive adjustments for mobile */
+/* ── Responsive ── */
 @media (max-width: 768px) {
+    .hero {
+        padding: 0 5%;
+    }
+
     .video-background {
-        width: 90%;
-        top: 110px;
         height: calc(100vh - 120px);
     }
-    
+
     .about-features,
     .activities-grid {
         grid-template-columns: 1fr;
@@ -253,8 +291,13 @@ body {
     .nav-links {
         display: none;
     }
-    
+
     .navbar {
         padding: 15px 0;
+    }
+
+    .home-cta-links {
+        flex-direction: column;
+        align-items: center;
     }
 }
