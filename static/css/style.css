@@ -94,6 +94,97 @@ body {
 
 
 
+/* About Section */
+.about-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+    color: white;
+}
+
+.section-title {
+    font-size: 2em;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-align: center;
+    color: white;
+    margin-bottom: 24px;
+}
+
+.about-intro {
+    font-size: 1.05em;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.about-subtitle {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #ffcc00;
+    letter-spacing: 0.04em;
+    margin: 0 0 16px;
+}
+
+.about-body {
+    font-size: 0.97em;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 40px;
+}
+
+.about-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 48px;
+}
+
+.about-feature {
+    background: rgba(6, 23, 80, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 24px 22px;
+    backdrop-filter: blur(6px);
+}
+
+.about-feature h4 {
+    font-size: 0.95em;
+    font-weight: 700;
+    color: #ffcc00;
+    letter-spacing: 0.06em;
+    margin: 0 0 10px;
+    text-transform: uppercase;
+}
+
+.about-feature p {
+    font-size: 0.9em;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+.about-cta {
+    background: rgba(6, 23, 80, 0.75);
+    border: 1px solid rgba(255, 204, 0, 0.3);
+    border-radius: 12px;
+    padding: 36px 32px;
+    backdrop-filter: blur(6px);
+}
+
+.about-cta .about-body {
+    margin-bottom: 16px;
+}
+
+.about-tagline {
+    font-size: 1em;
+    font-weight: 700;
+    color: #ffcc00;
+    letter-spacing: 0.04em;
+    margin: 0;
+}
+
 /* Activities Section */
 .activities-section {
     max-width: 900px;
@@ -154,6 +245,7 @@ body {
         height: calc(100vh - 120px);
     }
     
+    .about-features,
     .activities-grid {
         grid-template-columns: 1fr;
     }
