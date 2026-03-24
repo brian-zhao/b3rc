@@ -1,7 +1,8 @@
 {% load static %}
+{% load i18n %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}B3RC — B3 Running Club{% endblock %}</title>
@@ -10,17 +11,39 @@
 <body>
     <header class="navbar">
         <div class="nav-container">
-            <a href="/">
+            <a href="{% url 'home' %}">
                 <img src="{% static 'images/logo.png' %}" alt="B3RC Logo" style="max-width: 80px; margin-bottom: 10px;">
             </a>
             <nav>
                 <ul class="nav-links">
-                    <li><a href="/about/">About</a></li>
-                    <li><a href="/activities/">Activities</a></li>
-                    <li><a href="/sponsors/">Sponsors</a></li>
-                    <li><a href="/find-us/">Find Us</a></li>
+                    <li><a href="{% url 'about' %}">{% trans "About" %}</a></li>
+                    <li><a href="{% url 'activities' %}">{% trans "Activities" %}</a></li>
+                    <li><a href="{% url 'sponsors' %}">{% trans "Sponsors" %}</a></li>
+                    <li><a href="{% url 'find_us' %}">{% trans "Find Us" %}</a></li>
                 </ul>
             </nav>
+            <div class="lang-switcher">
+                <button class="lang-current" aria-label="{% trans 'Switch language' %}">
+                    {% get_current_language as CURRENT_LANGUAGE %}
+                    {% if CURRENT_LANGUAGE == 'zh-hans' %}简体
+                    {% elif CURRENT_LANGUAGE == 'zh-hant' %}繁體
+                    {% else %}EN{% endif %}
+                    <span class="lang-arrow">▾</span>
+                </button>
+                <div class="lang-dropdown">
+                    {% get_available_languages as LANGUAGES %}
+                    {% for lang_code, lang_name in LANGUAGES %}
+                        {% if lang_code != CURRENT_LANGUAGE %}
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="language" value="{{ lang_code }}">
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button type="submit" class="lang-option">{{ lang_name }}</button>
+                        </form>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </header>
 
