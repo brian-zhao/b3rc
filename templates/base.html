@@ -48,5 +48,15 @@
     </header>
 
     {% block content %}{% endblock %}
+
+    <script>
+    document.querySelector('.lang-current').addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.querySelector('.lang-dropdown').classList.toggle('open');
+    });
+    document.addEventListener('click', function() {
+        document.querySelector('.lang-dropdown').classList.remove('open');
+    });
+    </script>
 </body>
 </html>

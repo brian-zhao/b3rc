@@ -81,7 +81,7 @@ body {
     position: absolute;
     top: 100%;
     right: 0;
-    margin-top: 6px;
+    margin-top: 4px;
     background: #000000;
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 8px;
@@ -90,7 +90,7 @@ body {
     z-index: 1000;
 }
 
-.lang-switcher:hover .lang-dropdown {
+.lang-dropdown.open {
     display: block;
 }
 
