@@ -1,17 +1,18 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}Sponsors — B3RC{% endblock %}
+{% block title %}{% trans "Sponsors" %} — B3RC{% endblock %}
 
 {% block content %}
 <main class="container page-content">
     <section class="sponsors-section">
-        <h2 class="section-title">Our Partners in Performance</h2>
-        <p class="about-intro">At Breaking 3 Running Club (B3RC), we believe that breaking the 3-hour and 3:15-hour marathon barriers is a team effort. We are proud to partner with industry leaders and local Sydney businesses that provide our athletes with the gear, recovery, and fuel needed to chase elite milestones.</p>
+        <h2 class="section-title">{% trans "Our Partners in Performance" %}</h2>
+        <p class="about-intro">{% trans "At Breaking 3 Running Club (B3RC), we believe that breaking the 3-hour and 3:15-hour marathon barriers is a team effort. We are proud to partner with industry leaders and local Sydney businesses that provide our athletes with the gear, recovery, and fuel needed to chase elite milestones." %}</p>
 
         <div class="sponsors-cta">
-            <h3 class="about-subtitle">Become a Partner</h3>
-            <p class="about-body">Interested in supporting our athletes and community? Contact us for more details.</p>
-            <a href="mailto:info@b3rc.com.au" class="sponsors-contact-btn">Contact Us</a>
+            <h3 class="about-subtitle">{% trans "Become a Partner" %}</h3>
+            <p class="about-body">{% trans "Interested in supporting our athletes and community? Contact us for more details." %}</p>
+            <a href="mailto:info@b3rc.com.au" class="sponsors-contact-btn">{% trans "Contact Us" %}</a>
         </div>
     </section>
 </main>
