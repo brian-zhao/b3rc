@@ -11,6 +11,7 @@ automatic_scaling:
 env_variables:
   DJANGO_SETTINGS_MODULE: "b3rc_site.settings"
   DJANGO_SECRET_KEY: "django-insecure-dxhy6pjxrc3j$icrk-%1^-p7-3fkz9-9h+^5_&q$$0u@!4s1-_"
+  DB_PASSWORD: "b3rc2026db"
 
 handlers:
   - url: /static
