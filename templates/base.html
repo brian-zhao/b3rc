@@ -6,8 +6,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}B3RC — Breaking 3 Running Club{% endblock %}</title>
+    <title>{% block title %}B3RC — Breaking 3 Running Club | Sydney Running Club{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Breaking 3 Running Club (B3RC) is a Sydney running club based in Rhodes. Join our Sunday run and weekly training sessions. Chasing the sub-3-hour marathon together.{% endblock %}">
+    <meta name="keywords" content="breaking 3 running club, breaking 3 running, sydney running, rhodes running, sunday run, running club sydney, sub 3 marathon, B3RC">
+    <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="B3RC — Breaking 3 Running Club">
+    <meta property="og:title" content="{% block og_title %}B3RC — Breaking 3 Running Club | Sydney Running Club{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Breaking 3 Running Club (B3RC) is a Sydney running club based in Rhodes. Join our Sunday run and weekly training sessions.{% endblock %}">
+    <meta property="og:locale" content="{{ LANGUAGE_CODE }}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{% block twitter_title %}B3RC — Breaking 3 Running Club{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Sydney running club based in Rhodes. Sunday long runs, Wednesday quality sessions. Chasing the sub-3 marathon.{% endblock %}">
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    {% block structured_data %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SportsClub",
+        "name": "Breaking 3 Running Club",
+        "alternateName": "B3RC",
+        "description": "A performance-driven Sydney running club based in Rhodes, dedicated to runners chasing the sub-3-hour marathon.",
+        "url": "{{ request.scheme }}://{{ request.get_host }}",
+        "email": "info@b3rc.com.au",
+        "sport": "Running",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Rhodes",
+            "addressRegion": "NSW",
+            "addressCountry": "AU"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -33.8310,
+            "longitude": 151.0870
+        },
+        "areaServed": {
+            "@type": "City",
+            "name": "Sydney"
+        },
+        "event": [
+            {
+                "@type": "ExerciseAction",
+                "name": "Sunday Long Run",
+                "description": "Weekly Sunday long run at Rhodes Amphitheatre, 7 AM. The cornerstone of marathon preparation.",
+                "location": {
+                    "@type": "Place",
+                    "name": "Rhodes Amphitheatre",
+                    "address": "Rhodes, NSW, Australia"
+                }
+            },
+            {
+                "@type": "ExerciseAction",
+                "name": "Wednesday Quality Session",
+                "description": "Midweek quality running session — intervals, tempo, and race-pace work.",
+                "location": {
+                    "@type": "Place",
+                    "name": "St Lukes Oval",
+                    "address": "Concord, NSW, Australia"
+                }
+            }
+        ]
+    }
+    </script>
+    {% endblock %}
 </head>
 <body>
     <header class="navbar">
