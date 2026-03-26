@@ -1,27 +1,27 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Find Us" %} — B3RC{% endblock %}
+{% block title %}{% trans "Contact" %} — B3RC{% endblock %}
 
 {% block content %}
-<main class="container page-content">
-    <section class="findus-section">
-        <h2 class="section-title">{% trans "Find Us" %}</h2>
-        <p class="about-intro">{% trans "We meet at two locations each week. Come find us." %}</p>
+<main class="page-content">
+    <div class="container">
+        <p class="section-eyebrow" style="text-align:center;">{% trans "Locations" %}</p>
+        <h2 class="section-title" style="text-align:center;">{% trans "Find Us" %}</h2>
+        <p class="section-intro" style="text-align:center; margin-left:auto; margin-right:auto;">{% trans "We meet at two locations each week across Sydney. Come run with the pack." %}</p>
 
-        <div class="findus-grid">
-            <div class="findus-card">
-                <div class="findus-info">
-                    <h3>{% trans "WEDNESDAY — QUALITY" %}</h3>
-                    <p>{% trans "Morning quality sessions on Wednesdays." %}</p>
-                    <p class="activity-location">📍 {% trans "St Lukes Oval, Concord NSW" %}</p>
+        <div class="card-grid">
+            <div class="map-card">
+                <div class="map-card-info">
+                    <h3>{% trans "Wednesday — Quality" %}</h3>
+                    <p>{% trans "Midweek quality sessions." %}</p>
+                    <p class="card-meta">📍 {% trans "St Lukes Oval, Concord NSW" %}</p>
                 </div>
-                <div class="findus-map">
+                <div class="map-wrapper">
                     <iframe
                         src="https://maps.google.com/maps?q=St+Lukes+Oval+Concord+NSW&output=embed&z=15"
                         width="100%"
-                        height="300"
-                        style="border:0; border-radius: 8px;"
+                        height="220"
                         allowfullscreen
                         loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade">
@@ -29,19 +29,17 @@
                 </div>
             </div>
 
-            <div class="findus-card">
-                <div class="findus-info">
-                    <h3>{% trans "SUNDAY — LONG RUN" %}</h3>
-                    <p>{% trans "The most important run in marathon training." %}</p>
-                    <p class="activity-time">🕖 7:00 AM</p>
-                    <p class="activity-location">📍 {% trans "Rhodes Amphitheatre" %}</p>
+            <div class="map-card">
+                <div class="map-card-info">
+                    <h3>{% trans "Sunday — Long Run" %}</h3>
+                    <p>{% trans "Progressive long runs, 7 AM start." %}</p>
+                    <p class="card-meta">📍 {% trans "Rhodes Amphitheatre" %}</p>
                 </div>
-                <div class="findus-map">
+                <div class="map-wrapper">
                     <iframe
                         src="https://maps.google.com/maps?q=Rhodes+Amphitheatre+Rhodes+NSW&output=embed&z=15"
                         width="100%"
-                        height="300"
-                        style="border:0; border-radius: 8px;"
+                        height="220"
                         allowfullscreen
                         loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade">
@@ -49,6 +47,12 @@
                 </div>
             </div>
         </div>
-    </section>
+
+        <div class="cta-box">
+            <h3>{% trans "Questions?" %}</h3>
+            <p>{% trans "Reach out anytime — we'd love to hear from you." %}</p>
+            <a href="mailto:info@b3rc.com.au" class="btn-cta">{% trans "Get in Touch" %}</a>
+        </div>
+    </div>
 </main>
 {% endblock %}

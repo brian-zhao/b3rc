@@ -1,16 +1,152 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <main>
-    <div class="hero">
-        <div class="video-background">
-            <video autoplay muted loop playsinline webkit-playsinline>
-                <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
-            </video>
-            <div class="video-overlay"></div>
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <!-- TODO: Replace with hero photo — runner legs close-up, blue sky -->
+            <div class="image-placeholder"></div>
         </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">{% trans "Breaking 3 Running Club — Sydney" %}</p>
+            <h1 class="hero-title">{% trans "Train Hard." %}<br>{% trans "Sweat Hard." %}</h1>
+            <p class="hero-subtitle">{% trans "A performance-driven community built around the pursuit of the sub-3-hour marathon. Every session counts." %}</p>
+            <a href="{% url 'about' %}" class="btn-primary">{% trans "Join B3RC" %}</a>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about-us">
+        <div class="about-split">
+            <div class="about-image">
+                <!-- TODO: Replace with group runners photo -->
+                <div class="image-placeholder"></div>
+            </div>
+            <div class="about-text">
+                <p class="section-eyebrow">{% trans "About Us" %}</p>
+                <h2 class="section-title">{% trans "Where Running Meets Ambition" %}</h2>
+                <p class="section-intro">{% trans "Welcome to B3RC, where running meets community. Whether you're a beginner or an experienced runner, our club offers the perfect environment to help you achieve your personal best. Join us for weekly runs, structured training, and the camaraderie of runners who share your drive." %}</p>
+                <a href="{% url 'about' %}" class="btn-link">{% trans "Learn more" %} <span>→</span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Activities -->
+    <div class="section-alt">
+        <section class="section section-center" id="activities">
+            <p class="section-eyebrow">{% trans "Training" %}</p>
+            <h2 class="section-title">{% trans "Weekly Programs" %}</h2>
+            <p class="section-intro">{% trans "Structured sessions designed to build marathon-ready fitness. Two opportunities each week to train with the pack." %}</p>
+
+            <div class="activities-grid">
+                <div class="activity-card">
+                    <div class="activity-icon">⚡</div>
+                    <h3>{% trans "Wednesday — Quality" %}</h3>
+                    <p>{% trans "Intervals, tempo, and race-pace work to sharpen your speed and lactate threshold." %}</p>
+                    <p class="meta">📍 {% trans "St Lukes Oval, Concord NSW" %}</p>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">🏃</div>
+                    <h3>{% trans "Sunday — Long Run" %}</h3>
+                    <p>{% trans "The cornerstone of marathon preparation. Progressive long runs building endurance and mental resilience." %}</p>
+                    <p class="meta">🕖 7:00 AM · 📍 {% trans "Rhodes Amphitheatre" %}</p>
+                </div>
+            </div>
+        </section>
     </div>
 
+    <!-- Photo Strip -->
+    <section class="photo-strip">
+        <div class="photo-strip-item">
+            <!-- TODO: Replace with group runners photo -->
+            <div class="image-placeholder"></div>
+        </div>
+        <div class="photo-strip-item">
+            <!-- TODO: Replace with runners with caps photo -->
+            <div class="image-placeholder"></div>
+        </div>
+        <div class="photo-strip-item">
+            <!-- TODO: Replace with runner waving photo -->
+            <div class="image-placeholder"></div>
+        </div>
+    </section>
+
+    <!-- Why B3RC -->
+    <section class="section section-center" id="why">
+        <p class="section-eyebrow">{% trans "Why B3RC" %}</p>
+        <h2 class="section-title">{% trans "More Than a Running Club" %}</h2>
+        <p class="section-intro">{% trans "We're a community built on shared ambition, mutual support, and the belief that running is better together." %}</p>
+
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">🎯</div>
+                <h3>{% trans "Performance" %}</h3>
+                <p>{% trans "Every session is built around the sub-3 goal. Targeted, purposeful training." %}</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🤝</div>
+                <h3>{% trans "Community" %}</h3>
+                <p>{% trans "Hunt in packs. You'll never face a hard session alone." %}</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">💪</div>
+                <h3>{% trans "Inclusive" %}</h3>
+                <p>{% trans "All backgrounds welcome. Ambition is the only requirement." %}</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">📍</div>
+                <h3>{% trans "Sydney-Based" %}</h3>
+                <p>{% trans "Concord, Rhodes, and the best terrain Sydney has to offer." %}</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">📊</div>
+                <h3>{% trans "Structured" %}</h3>
+                <p>{% trans "Quality midweek sessions and progressive Sunday long runs." %}</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🎉</div>
+                <h3>{% trans "Social" %}</h3>
+                <p>{% trans "Post-run coffee, race-day support, and celebrating every PB." %}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+        <h2>{% trans "Ready to Join B3RC?" %}</h2>
+        <p>{% trans "Whether you're chasing your first sub-3 or looking for a dedicated training group in Sydney, your next personal best starts here." %}</p>
+        <a href="mailto:info@b3rc.com.au" class="btn-white">{% trans "Get in Touch" %}</a>
+    </section>
+
+    <!-- Find Us -->
+    <section class="section" id="find-us">
+        <div class="section-center">
+            <p class="section-eyebrow">{% trans "Locations" %}</p>
+            <h2 class="section-title">{% trans "Find Us" %}</h2>
+        </div>
+        <div class="contact-split">
+            <div class="contact-map">
+                <iframe
+                    src="https://maps.google.com/maps?q=Rhodes+Amphitheatre+Rhodes+NSW&output=embed&z=14"
+                    width="100%"
+                    height="100%"
+                    allowfullscreen
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+            <div class="contact-info">
+                <h3>{% trans "Training Locations" %}</h3>
+                <p><strong>{% trans "Wednesday" %}</strong><br>{% trans "St Lukes Oval, Concord NSW" %}</p>
+                <p><strong>{% trans "Sunday, 7 AM" %}</strong><br>{% trans "Rhodes Amphitheatre" %}</p>
+                <p style="margin-top: 16px;">info@b3rc.com.au</p>
+                <a href="mailto:info@b3rc.com.au" class="btn-outline">{% trans "Contact Us" %}</a>
+            </div>
+        </div>
+    </section>
 </main>
 {% endblock %}

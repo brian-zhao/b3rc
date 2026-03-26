@@ -5,51 +5,120 @@
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}B3RC — B3 Running Club{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}B3RC — Breaking 3 Running Club{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header class="navbar">
         <div class="nav-container">
-            <a href="{% url 'home' %}">
-                <img src="{% static 'images/logo.png' %}" alt="B3RC Logo" style="max-width: 80px; margin-bottom: 10px;">
-            </a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="{% url 'about' %}">{% trans "About" %}</a></li>
-                    <li><a href="{% url 'activities' %}">{% trans "Activities" %}</a></li>
-                    <li><a href="{% url 'sponsors' %}">{% trans "Sponsors" %}</a></li>
-                    <li><a href="{% url 'find_us' %}">{% trans "Find Us" %}</a></li>
-                </ul>
-            </nav>
-            <div class="lang-switcher">
-                <button class="lang-current" aria-label="{% trans 'Switch language' %}">
-                    {% get_current_language as CURRENT_LANGUAGE %}
-                    {% if CURRENT_LANGUAGE == 'zh-hans' %}简体
-                    {% elif CURRENT_LANGUAGE == 'zh-hant' %}繁體
-                    {% else %}EN{% endif %}
-                    <span class="lang-arrow">▾</span>
-                </button>
-                <div class="lang-dropdown">
-                    {% get_available_languages as LANGUAGES %}
-                    {% for lang_code, lang_name in LANGUAGES %}
-                        {% if lang_code != CURRENT_LANGUAGE %}
-                        <form action="{% url 'set_language' %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="language" value="{{ lang_code }}">
-                            <input type="hidden" name="next" value="{{ request.path }}">
-                            <button type="submit" class="lang-option">{{ lang_name }}</button>
-                        </form>
-                        {% endif %}
-                    {% endfor %}
+            <a href="{% url 'home' %}" class="nav-logo">B3RC</a>
+            <div class="nav-right">
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+                        <li><a href="{% url 'about' %}">{% trans "About" %}</a></li>
+                        <li><a href="{% url 'activities' %}">{% trans "Programs" %}</a></li>
+                        <li><a href="{% url 'find_us' %}">{% trans "Contact" %}</a></li>
+                        <li><a href="{% url 'sponsors' %}">{% trans "Partners" %}</a></li>
+                    </ul>
+                </nav>
+                <div class="lang-switcher">
+                    <button class="lang-current" aria-label="{% trans 'Switch language' %}">
+                        {% get_current_language as CURRENT_LANGUAGE %}
+                        {% if CURRENT_LANGUAGE == 'zh-hans' %}简体
+                        {% elif CURRENT_LANGUAGE == 'zh-hant' %}繁體
+                        {% else %}EN{% endif %}
+                        <span class="lang-arrow">▾</span>
+                    </button>
+                    <div class="lang-dropdown">
+                        {% get_available_languages as LANGUAGES %}
+                        {% for lang_code, lang_name in LANGUAGES %}
+                            {% if lang_code != CURRENT_LANGUAGE %}
+                            <form action="{% url 'set_language' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="language" value="{{ lang_code }}">
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                <button type="submit" class="lang-option">{{ lang_name }}</button>
+                            </form>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
+                <button class="hamburger" aria-label="{% trans 'Toggle menu' %}">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </div>
     </header>
 
+    <!-- Mobile nav overlay -->
+    <div class="mobile-nav">
+        <a href="{% url 'home' %}">{% trans "Home" %}</a>
+        <a href="{% url 'about' %}">{% trans "About" %}</a>
+        <a href="{% url 'activities' %}">{% trans "Programs" %}</a>
+        <a href="{% url 'find_us' %}">{% trans "Contact" %}</a>
+        <a href="{% url 'sponsors' %}">{% trans "Partners" %}</a>
+    </div>
+
     {% block content %}{% endblock %}
 
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">B3RC</div>
+                <p class="footer-tagline">{% trans "Breaking 3 Running Club — Sydney's pursuit of the sub-3-hour marathon." %}</p>
+            </div>
+            <div>
+                <h4 class="footer-heading">{% trans "Navigate" %}</h4>
+                <ul class="footer-links">
+                    <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+                    <li><a href="{% url 'about' %}">{% trans "About" %}</a></li>
+                    <li><a href="{% url 'activities' %}">{% trans "Programs" %}</a></li>
+                    <li><a href="{% url 'sponsors' %}">{% trans "Partners" %}</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-heading">{% trans "Contact" %}</h4>
+                <p class="footer-text">Rhodes, Sydney NSW</p>
+                <p class="footer-text">info@b3rc.com.au</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook">Fb</a>
+                    <a href="#" aria-label="Instagram">Ig</a>
+                    <a href="#" aria-label="Strava">Strava</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="footer-heading">{% trans "Training" %}</h4>
+                <p class="footer-text">{% trans "Wednesday — Quality" %}</p>
+                <p class="footer-text">{% trans "Sunday — Long Run, 7 AM" %}</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 B3RC. {% trans "All rights reserved." %}</p>
+        </div>
+    </footer>
+
     <script>
+    // Hamburger toggle
+    var hamburger = document.querySelector('.hamburger');
+    var mobileNav = document.querySelector('.mobile-nav');
+    hamburger.addEventListener('click', function() {
+        hamburger.classList.toggle('active');
+        mobileNav.classList.toggle('open');
+        document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+    });
+    // Close mobile nav on link click
+    mobileNav.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            hamburger.classList.remove('active');
+            mobileNav.classList.remove('open');
+            document.body.style.overflow = '';
+        });
+    });
+    // Language switcher
     document.querySelector('.lang-current').addEventListener('click', function(e) {
         e.stopPropagation();
         document.querySelector('.lang-dropdown').classList.toggle('open');

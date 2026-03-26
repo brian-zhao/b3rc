@@ -1,25 +1,28 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Activities" %} — B3RC{% endblock %}
+{% block title %}{% trans "Programs" %} — B3RC{% endblock %}
 
 {% block content %}
-<main class="container page-content">
-    <section class="activities-section">
-        <h2 class="activities-title">{% trans "Activities" %}</h2>
-        <div class="activities-grid">
-            <div class="activity-card">
-                <h3>{% trans "WEDNESDAY — QUALITY" %}</h3>
-                <p>{% trans "Morning quality sessions on Wednesdays." %}</p>
-                <p class="activity-location">📍 {% trans "St Lukes Oval, Concord NSW" %}</p>
+<main class="page-content">
+    <div class="container">
+        <p class="section-eyebrow" style="text-align:center;">{% trans "Training" %}</p>
+        <h2 class="section-title" style="text-align:center;">{% trans "Weekly Programs" %}</h2>
+        <p class="section-intro" style="text-align:center; margin-left:auto; margin-right:auto;">{% trans "Structured sessions designed to build marathon-ready fitness. Two opportunities each week to train with the pack." %}</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <h3>{% trans "Wednesday — Quality" %}</h3>
+                <p>{% trans "Midweek quality sessions — intervals, tempo, and race-pace work to sharpen your speed." %}</p>
+                <p class="card-meta">📍 {% trans "St Lukes Oval, Concord NSW" %}</p>
             </div>
-            <div class="activity-card">
-                <h3>{% trans "SUNDAY — LONG RUN" %}</h3>
-                <p>{% trans "The most important run in marathon training." %}</p>
-                <p class="activity-time">🕖 7:00 AM</p>
-                <p class="activity-location">📍 {% trans "Rhodes Amphitheatre" %}</p>
+            <div class="card">
+                <h3>{% trans "Sunday — Long Run" %}</h3>
+                <p>{% trans "The cornerstone of marathon preparation. Progressive long runs building endurance and mental resilience." %}</p>
+                <p class="card-meta">🕖 7:00 AM</p>
+                <p class="card-meta">📍 {% trans "Rhodes Amphitheatre" %}</p>
             </div>
         </div>
-    </section>
+    </div>
 </main>
 {% endblock %}
