@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B3RC 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-24 01:27+0000\n"
-"PO-Revision-Date: 2026-03-24 01:27+0000\n"
+"POT-Creation-Date: 2026-03-26 09:29+0000\n"
+"PO-Revision-Date: 2026-03-26 09:30+0000\n"
 "Last-Translator: B3RC\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh_Hant\n"
@@ -16,178 +16,318 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: templates/about.html:4 templates/base.html:19
+#: templates/about.html:4 templates/base.html:20 templates/base.html:60
+#: templates/base.html:78
 msgid "About"
-msgstr "關於我們"
+msgstr "關於"
 
 #: templates/about.html:9
-msgid "Breaking 3 Running Club"
-msgstr "Breaking 3 跑步俱樂部"
+msgid "About B3RC"
+msgstr "關於 B3RC"
 
 #: templates/about.html:10
-msgid ""
-"Breaking 3 Running Club is a specialized, performance-driven community based "
-"in Sydney, dedicated to runners chasing the most iconic milestones in "
-"amateur marathon running. Whether you are hunting a sub-3-hour finish for "
-"men or a sub-3:15 mark for women, B3RC provides the structure, grit, and "
-"camaraderie needed to turn those ambitions into reality."
-msgstr ""
-"Breaking 3 跑步俱樂部是一個位於雪梨的專業競速跑步社區，致力於幫助跑者追逐業餘馬拉松中最具標誌性的目標。"
-"無論你是在追求男子3小時以內還是女子3小時15分以內的完賽成績，B3RC都能為你提供系統的訓練體系、"
-"堅韌的意志力和團隊的力量，將你的雄心壯志變為現實。"
+msgid "The Pursuit of Sub-3"
+msgstr "追求破3"
 
-#: templates/about.html:12
-msgid "The Pursuit of Excellence"
-msgstr "追求卓越"
-
-#: templates/about.html:13
-msgid ""
-"We believe that breaking these barriers requires more than just high "
-"mileage; it requires a strategic approach to training, recovery, and "
-"mindset. While our primary focus is helping athletes cross those specific "
-"time thresholds, our doors are open to everyone. If you have the drive to "
-"improve, a passion for the long game, and the heart to support your fellow "
-"runners, you belong with B3RC."
-msgstr ""
-"我們相信，突破這些障礙不僅僅需要高跑量；更需要在訓練、恢復和心態上採取科學的方法。"
-"雖然我們的核心目標是幫助運動員突破特定的時間門檻，但我們歡迎所有人加入。"
-"如果你有進步的動力、對長期目標的熱情，以及支持隊友的心，B3RC就是你的歸屬。"
+#: templates/about.html:11
+msgid "Breaking 3 Running Club is a performance-driven community based in Sydney, dedicated to runners chasing the most iconic milestone in amateur marathon running — the sub-3-hour finish."
+msgstr "Breaking 3 跑步俱樂部是一個位於雪梨的競速跑步社區，致力於幫助跑者追逐業餘馬拉松中最具標誌性的目標——3小時以內完賽。"
 
 #: templates/about.html:15
-msgid "Why Run With B3RC?"
-msgstr "為什麼選擇 B3RC？"
-
-#: templates/about.html:18
 msgid "Targeted Performance"
 msgstr "精準訓練目標"
 
-#: templates/about.html:19
-msgid ""
-"Our collective energy is focused on the sub-3 and sub-3:15 benchmarks, "
-"creating a high-level training environment where every session counts."
-msgstr ""
-"我們的集體力量聚焦於破3和破3:15的目標，打造高水準的訓練環境，讓每一次訓練都有意義。"
+#: templates/about.html:16
+msgid "Our collective energy is focused on the sub-3 and sub-3:15 benchmarks, creating a high-level training environment where every session counts."
+msgstr "我們的集體力量聚焦於破3和破3:15的目標，打造高水準的訓練環境，讓每一次訓練都有意義。"
 
-#: templates/about.html:22
-msgid "Sydney-Based Community"
-msgstr "紮根雪梨的社區"
+#: templates/about.html:19 templates/home.html:102
+msgid "Sydney-Based"
+msgstr "紮根雪梨"
+
+#: templates/about.html:20
+msgid "From the Eastern Suburbs to Olympic Park, we utilize Sydney's best terrain to build marathon-ready legs."
+msgstr "從東區到奧林匹克公園，我們充分利用雪梨最佳地形，鍛造馬拉松級別的雙腿。"
 
 #: templates/about.html:23
-msgid ""
-"From the hills of the Eastern Suburbs to the flat stretches of Olympic Park, "
-"we utilize the best of Sydney's terrain to build marathon-ready legs."
-msgstr ""
-"從東區的丘陵到奧林匹克公園的平坦賽道，我們充分利用雪梨最佳地形，鍛造馬拉松級別的雙腿。"
+msgid "Inclusive & Ambitious"
+msgstr "包容且進取"
 
-#: templates/about.html:26
-msgid "Inclusive but Ambitious"
-msgstr "包容且雄心勃勃"
+#: templates/about.html:24
+msgid "We welcome runners of all backgrounds who are ready to commit to their personal bests. Ambition is the only requirement."
+msgstr "我們歡迎所有背景的跑者，只要你準備好全力追求個人最佳。進取心是唯一的要求。"
 
 #: templates/about.html:27
-msgid ""
-"\"Everyone is welcome\" isn't just a slogan. We welcome runners of all "
-"backgrounds who are ready to commit to their personal bests."
-msgstr "「歡迎所有人」不只是一句口號。我們歡迎所有背景的跑者，只要你準備好全力追求個人最佳。"
-
-#: templates/about.html:30
-msgid "The Power of the Pack"
+msgid "The Pack"
 msgstr "團隊的力量"
 
-#: templates/about.html:31
-msgid ""
-"Just like race-day pacers, we hunt in packs. You'll never have to face a "
-"grueling 30km Sunday long run or a localized interval session alone."
-msgstr ""
-"就像比賽中的配速員一樣，我們結伴而行。你再也不用獨自面對艱苦的30公里週日長跑或高強度間歇訓練。"
+#: templates/about.html:28
+msgid "We hunt in packs. You'll never face a grueling 30km long run or interval session alone."
+msgstr "我們結伴而行。你再也不用獨自面對艱苦的30公里長跑或間歇訓練。"
 
-#: templates/about.html:36
+#: templates/about.html:33
 msgid "Join the Journey"
 msgstr "加入我們的旅程"
 
-#: templates/about.html:37
-msgid ""
-"The road to a sub-3 or sub-3:15 marathon is long, often \"a bit crazy,\" and "
-"incredibly rewarding. Don't chase the clock in isolation. Come be part of a "
-"vibrant, supportive, and disciplined community that understands exactly what "
-"it takes to reach the finish line ahead of the pack."
-msgstr ""
-"通往破3或破3:15馬拉松的道路是漫長的，常常『有點瘋狂』，但也無比值得。"
-"不要獨自追趕時間。加入一個充滿活力、相互支持、紀律嚴明的社區，"
-"這裡的每個人都深知衝過終點線所需要的一切。"
+#: templates/about.html:34
+msgid "The road to a sub-3 marathon is long and incredibly rewarding. Don't chase the clock in isolation — be part of a community that understands what it takes."
+msgstr "通往破3馬拉松的道路漫長而充滿回報。不要獨自追趕時間——加入一個懂得其中艱辛的社區。"
 
-#: templates/about.html:38
-msgid "B3RC: Your journey to the sub-3 mark starts here."
-msgstr "B3RC：你的破3之旅，從這裡開始。"
+#: templates/about.html:35
+msgid "Become a Member"
+msgstr "成為會員"
 
-#: templates/activities.html:4 templates/activities.html:9
-#: templates/base.html:20
-msgid "Activities"
-msgstr "訓練活動"
+#: templates/activities.html:4 templates/base.html:21 templates/base.html:61
+#: templates/base.html:79
+msgid "Programs"
+msgstr "訓練項目"
 
-#: templates/activities.html:12 templates/find_us.html:15
-msgid "WEDNESDAY — QUALITY"
+#: templates/activities.html:9 templates/base.html:94 templates/home.html:41
+msgid "Training"
+msgstr "訓練"
+
+#: templates/activities.html:10 templates/home.html:42
+msgid "Weekly Programs"
+msgstr "每週訓練計劃"
+
+#: templates/activities.html:11 templates/home.html:43
+msgid "Structured sessions designed to build marathon-ready fitness. Two opportunities each week to train with the pack."
+msgstr "系統化的訓練課程，打造馬拉松級別體能。每週兩次與團隊一起訓練的機會。"
+
+#: templates/activities.html:15 templates/base.html:95
+#: templates/find_us.html:16 templates/home.html:48
+msgid "Wednesday — Quality"
 msgstr "週三 — 質量訓練"
 
-#: templates/activities.html:13 templates/find_us.html:16
-msgid "Morning quality sessions on Wednesdays."
-msgstr "每週三早晨進行質量訓練。"
+#: templates/activities.html:16
+msgid "Midweek quality sessions — intervals, tempo, and race-pace work to sharpen your speed."
+msgstr "週中質量訓練——間歇跑、節奏跑和比賽配速訓練，提升你的速度。"
 
-#: templates/activities.html:14 templates/find_us.html:17
+#: templates/activities.html:17 templates/find_us.html:18
+#: templates/home.html:50 templates/home.html:144
 msgid "St Lukes Oval, Concord NSW"
 msgstr "St Lukes Oval, Concord NSW"
 
-#: templates/activities.html:17 templates/find_us.html:34
-msgid "SUNDAY — LONG RUN"
+#: templates/activities.html:20 templates/find_us.html:34
+#: templates/home.html:54
+msgid "Sunday — Long Run"
 msgstr "週日 — 長距離跑"
 
-#: templates/activities.html:18 templates/find_us.html:35
-msgid "The most important run in marathon training."
-msgstr "馬拉松訓練中最重要的一課。"
+#: templates/activities.html:21 templates/home.html:55
+msgid "The cornerstone of marathon preparation. Progressive long runs building endurance and mental resilience."
+msgstr "馬拉松備戰的基石。漸進式長跑，鍛鍊耐力和心理韌性。"
 
-#: templates/activities.html:20 templates/find_us.html:37
+#: templates/activities.html:23 templates/find_us.html:36
+#: templates/home.html:56 templates/home.html:145
 msgid "Rhodes Amphitheatre"
 msgstr "Rhodes Amphitheatre"
 
-#: templates/base.html:21 templates/sponsors.html:4
-msgid "Sponsors"
-msgstr "贊助商"
+#: templates/base.html:19 templates/base.html:59 templates/base.html:77
+msgid "Home"
+msgstr "首頁"
 
-#: templates/base.html:22 templates/find_us.html:4 templates/find_us.html:9
-msgid "Find Us"
-msgstr "找到我們"
+#: templates/base.html:22 templates/base.html:62 templates/base.html:84
+#: templates/find_us.html:4
+msgid "Contact"
+msgstr "聯繫"
 
-#: templates/base.html:26
+#: templates/base.html:23 templates/base.html:63 templates/base.html:80
+#: templates/sponsors.html:4
+msgid "Partners"
+msgstr "合作夥伴"
+
+#: templates/base.html:27
 msgid "Switch language"
 msgstr "切換語言"
 
-#: templates/find_us.html:10
-msgid "We meet at two locations each week. Come find us."
-msgstr "我們每週在兩個地點集合訓練，快來找到我們。"
+#: templates/base.html:48
+msgid "Toggle menu"
+msgstr "切換選單"
 
-#: templates/sponsors.html:9
-msgid "Our Partners in Performance"
-msgstr "我們的合作夥伴"
+#: templates/base.html:72
+msgid "Breaking 3 Running Club — Sydney's pursuit of the sub-3-hour marathon."
+msgstr "Breaking 3 跑步俱樂部——雪梨的破3馬拉松追夢社區。"
 
-#: templates/sponsors.html:10
-msgid ""
-"At Breaking 3 Running Club (B3RC), we believe that breaking the 3-hour and "
-"3:15-hour marathon barriers is a team effort. We are proud to partner with "
-"industry leaders and local Sydney businesses that provide our athletes with "
-"the gear, recovery, and fuel needed to chase elite milestones."
-msgstr ""
-"在 Breaking 3 跑步俱樂部 (B3RC)，我們相信突破3小時和3小時15分的馬拉松大關是團隊的努力。"
-"我們很自豪能與行業領袖和雪梨本地企業合作，為我們的運動員提供追逐精英目標所需的裝備、恢復和補給。"
+#: templates/base.html:75
+msgid "Navigate"
+msgstr "導航"
 
-#: templates/sponsors.html:13
-msgid "Become a Partner"
-msgstr "成為合作夥伴"
+#: templates/base.html:96
+msgid "Sunday — Long Run, 7 AM"
+msgstr "週日 — 長距離跑，早上7點"
 
-#: templates/sponsors.html:14
-msgid ""
-"Interested in supporting our athletes and community? Contact us for more "
-"details."
-msgstr "有興趣支持我們的運動員和社區？請聯繫我們了解更多詳情。"
+#: templates/base.html:100
+msgid "All rights reserved."
+msgstr "保留所有權利。"
 
-#: templates/sponsors.html:15
+#: templates/find_us.html:9 templates/home.html:128
+msgid "Locations"
+msgstr "訓練地點"
+
+#: templates/find_us.html:10 templates/home.html:129
+msgid "Find Us"
+msgstr "找到我們"
+
+#: templates/find_us.html:11
+msgid "We meet at two locations each week across Sydney. Come run with the pack."
+msgstr "我們每週在雪梨的兩個地點集合訓練。快來加入團隊一起跑吧。"
+
+#: templates/find_us.html:17
+msgid "Midweek quality sessions."
+msgstr "週中質量訓練課程。"
+
+#: templates/find_us.html:35
+msgid "Progressive long runs, 7 AM start."
+msgstr "漸進式長跑，早上7點出發。"
+
+#: templates/find_us.html:52
+msgid "Questions?"
+msgstr "有問題？"
+
+#: templates/find_us.html:53
+msgid "Reach out anytime — we'd love to hear from you."
+msgstr "隨時聯繫我們——期待你的來信。"
+
+#: templates/find_us.html:54 templates/home.html:122
+msgid "Get in Touch"
+msgstr "聯繫我們"
+
+#: templates/home.html:15
+msgid "Breaking 3 Running Club — Sydney"
+msgstr "Breaking 3 跑步俱樂部 — 雪梨"
+
+#: templates/home.html:16
+msgid "Train Hard."
+msgstr "刻苦訓練。"
+
+#: templates/home.html:16
+msgid "Sweat Hard."
+msgstr "揮灑汗水。"
+
+#: templates/home.html:17
+msgid "A performance-driven community built around the pursuit of the sub-3-hour marathon. Every session counts."
+msgstr "一個以競速為驅動的社區，圍繞破3馬拉松目標而建。每一次訓練都算數。"
+
+#: templates/home.html:18
+msgid "Join B3RC"
+msgstr "加入 B3RC"
+
+#: templates/home.html:30
+msgid "About Us"
+msgstr "關於我們"
+
+#: templates/home.html:31
+msgid "Where Running Meets Ambition"
+msgstr "當跑步遇上雄心"
+
+#: templates/home.html:32
+msgid "Welcome to B3RC, where running meets community. Whether you're a beginner or an experienced runner, our club offers the perfect environment to help you achieve your personal best. Join us for weekly runs, structured training, and the camaraderie of runners who share your drive."
+msgstr "歡迎來到 B3RC，跑步與社區在這裡相遇。無論你是新手還是經驗豐富的跑者，我們的俱樂部都能為你提供理想的環境，幫助你實現個人最佳。加入我們的每週跑步、系統訓練，以及與志同道合的跑者並肩前行。"
+
+#: templates/home.html:33
+msgid "Learn more"
+msgstr "了解更多"
+
+#: templates/home.html:49
+msgid "Intervals, tempo, and race-pace work to sharpen your speed and lactate threshold."
+msgstr "間歇跑、節奏跑和比賽配速訓練，提升速度和乳酸閾值。"
+
+#: templates/home.html:80
+msgid "Why B3RC"
+msgstr "為什麼選擇 B3RC"
+
+#: templates/home.html:81
+msgid "More Than a Running Club"
+msgstr "不僅僅是跑步俱樂部"
+
+#: templates/home.html:82
+msgid "We're a community built on shared ambition, mutual support, and the belief that running is better together."
+msgstr "我們是一個建立在共同志向、互相支持和「一起跑更好」信念之上的社區。"
+
+#: templates/home.html:87
+msgid "Performance"
+msgstr "競速表現"
+
+#: templates/home.html:88
+msgid "Every session is built around the sub-3 goal. Targeted, purposeful training."
+msgstr "每次訓練都圍繞破3目標展開。精準、有目的的訓練。"
+
+#: templates/home.html:92
+msgid "Community"
+msgstr "社區"
+
+#: templates/home.html:93
+msgid "Hunt in packs. You'll never face a hard session alone."
+msgstr "結伴而行。你再也不用獨自面對艱苦的訓練。"
+
+#: templates/home.html:97
+msgid "Inclusive"
+msgstr "包容"
+
+#: templates/home.html:98
+msgid "All backgrounds welcome. Ambition is the only requirement."
+msgstr "歡迎所有背景的跑者。進取心是唯一的要求。"
+
+#: templates/home.html:103
+msgid "Concord, Rhodes, and the best terrain Sydney has to offer."
+msgstr "Concord、Rhodes，以及雪梨最優質的訓練地形。"
+
+#: templates/home.html:107
+msgid "Structured"
+msgstr "系統化"
+
+#: templates/home.html:108
+msgid "Quality midweek sessions and progressive Sunday long runs."
+msgstr "週中質量訓練課程和漸進式週日長跑。"
+
+#: templates/home.html:112
+msgid "Social"
+msgstr "社交"
+
+#: templates/home.html:113
+msgid "Post-run coffee, race-day support, and celebrating every PB."
+msgstr "跑後咖啡、比賽日支援，一起慶祝每一個PB。"
+
+#: templates/home.html:120
+msgid "Ready to Join B3RC?"
+msgstr "準備好加入 B3RC 了嗎？"
+
+#: templates/home.html:121
+msgid "Whether you're chasing your first sub-3 or looking for a dedicated training group in Sydney, your next personal best starts here."
+msgstr "無論你是在追逐首次破3，還是在雪梨尋找一個專注的訓練團隊，你的下一個PB從這裡開始。"
+
+#: templates/home.html:143
+msgid "Training Locations"
+msgstr "訓練地點"
+
+#: templates/home.html:144
+msgid "Wednesday"
+msgstr "週三"
+
+#: templates/home.html:145
+msgid "Sunday, 7 AM"
+msgstr "週日，早上7點"
+
+#: templates/home.html:147 templates/sponsors.html:16
 msgid "Contact Us"
 msgstr "聯繫我們"
+
+#: templates/sponsors.html:9
+msgid "Partnerships"
+msgstr "合作夥伴"
+
+#: templates/sponsors.html:10
+msgid "Our Partners"
+msgstr "我們的合作夥伴"
+
+#: templates/sponsors.html:11
+msgid "Breaking the 3-hour barrier is a team effort. We partner with brands and businesses that fuel our athletes' ambitions."
+msgstr "突破3小時大關是團隊的努力。我們與為運動員提供支持的品牌和企業合作。"
+
+#: templates/sponsors.html:14
+msgid "Partner with B3RC"
+msgstr "與 B3RC 合作"
+
+#: templates/sponsors.html:15
+msgid "Interested in supporting Sydney's most ambitious running community? Let's talk."
+msgstr "有興趣支持雪梨最具雄心的跑步社區？歡迎聯繫我們。"

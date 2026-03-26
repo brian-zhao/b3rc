@@ -28,6 +28,8 @@
                         {% get_current_language as CURRENT_LANGUAGE %}
                         {% if CURRENT_LANGUAGE == 'zh-hans' %}简体
                         {% elif CURRENT_LANGUAGE == 'zh-hant' %}繁體
+                        {% elif CURRENT_LANGUAGE == 'ko' %}한국어
+                        {% elif CURRENT_LANGUAGE == 'ja' %}日本語
                         {% else %}EN{% endif %}
                         <span class="lang-arrow">▾</span>
                     </button>
