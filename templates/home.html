@@ -14,8 +14,17 @@
     <!-- Hero -->
     <section class="hero" id="home">
         <div class="hero-bg">
-            <!-- TODO: Replace with hero photo — runner legs close-up, blue sky -->
-            <div class="image-placeholder"></div>
+            {% if site_media.hero_bg %}
+                {% if site_media.hero_bg.is_video %}
+                <video autoplay muted loop playsinline>
+                    <source src="{{ site_media.hero_bg.file.url }}" type="video/mp4">
+                </video>
+                {% else %}
+                <img src="{{ site_media.hero_bg.file.url }}" alt="{{ site_media.hero_bg.alt_text }}">
+                {% endif %}
+            {% else %}
+                <div class="image-placeholder"></div>
+            {% endif %}
         </div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
@@ -30,8 +39,11 @@
     <section class="section" id="about-us">
         <div class="about-split">
             <div class="about-image">
-                <!-- TODO: Replace with group runners photo -->
+                {% if site_media.about_image %}
+                <img src="{{ site_media.about_image.file.url }}" alt="{{ site_media.about_image.alt_text }}">
+                {% else %}
                 <div class="image-placeholder"></div>
+                {% endif %}
             </div>
             <div class="about-text">
                 <p class="section-eyebrow">{% trans "About Us" %}</p>
@@ -69,16 +81,25 @@
     <!-- Photo Strip -->
     <section class="photo-strip">
         <div class="photo-strip-item">
-            <!-- TODO: Replace with group runners photo -->
+            {% if site_media.photo_strip_1 %}
+            <img src="{{ site_media.photo_strip_1.file.url }}" alt="{{ site_media.photo_strip_1.alt_text }}">
+            {% else %}
             <div class="image-placeholder"></div>
+            {% endif %}
         </div>
         <div class="photo-strip-item">
-            <!-- TODO: Replace with runners with caps photo -->
+            {% if site_media.photo_strip_2 %}
+            <img src="{{ site_media.photo_strip_2.file.url }}" alt="{{ site_media.photo_strip_2.alt_text }}">
+            {% else %}
             <div class="image-placeholder"></div>
+            {% endif %}
         </div>
         <div class="photo-strip-item">
-            <!-- TODO: Replace with runner waving photo -->
+            {% if site_media.photo_strip_3 %}
+            <img src="{{ site_media.photo_strip_3.file.url }}" alt="{{ site_media.photo_strip_3.alt_text }}">
+            {% else %}
             <div class="image-placeholder"></div>
+            {% endif %}
         </div>
     </section>
 
