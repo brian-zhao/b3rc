@@ -89,6 +89,7 @@
                         <li><a href="{% url 'activities' %}">{% trans "Programs" %}</a></li>
                         <li><a href="{% url 'find_us' %}">{% trans "Contact" %}</a></li>
                         <li><a href="{% url 'sponsors' %}">{% trans "Partners" %}</a></li>
+                        <li><a href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a></li>
                     </ul>
                 </nav>
                 <div class="lang-switcher">
@@ -131,6 +132,7 @@
         <a href="{% url 'activities' %}">{% trans "Programs" %}</a>
         <a href="{% url 'find_us' %}">{% trans "Contact" %}</a>
         <a href="{% url 'sponsors' %}">{% trans "Partners" %}</a>
+        <a href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a>
     </div>
 
     {% block content %}{% endblock %}
@@ -157,7 +159,7 @@
                 <div class="footer-social">
                     <a href="#" aria-label="Facebook">Fb</a>
                     <a href="#" aria-label="Instagram">Ig</a>
-                    <a href="#" aria-label="Strava">Strava</a>
+                    <a href="https://www.strava.com/clubs/1331912" target="_blank" rel="noopener" aria-label="Strava">Strava</a>
                 </div>
             </div>
             <div>

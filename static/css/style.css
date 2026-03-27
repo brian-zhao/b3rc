@@ -956,6 +956,367 @@ img {
     border-radius: 4px;
 }
 
+/* ── Leaderboard ── */
+.leaderboard-container {
+    max-width: 960px;
+}
+
+.leaderboard-header {
+    margin-bottom: 40px;
+}
+
+/* Login Card */
+.login-card {
+    background: #f5f7f8;
+    border-radius: 6px;
+    padding: 48px 32px;
+    text-align: center;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+.login-card h2 {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: #0B3C56;
+    margin-bottom: 8px;
+}
+
+.login-card > p {
+    font-size: 0.88em;
+    line-height: 1.7;
+    color: #666;
+    margin-bottom: 28px;
+}
+
+.login-note {
+    font-size: 0.75em !important;
+    color: #999 !important;
+    margin-top: 20px !important;
+    margin-bottom: 0 !important;
+}
+
+/* Social Login Buttons */
+.social-login-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 20px;
+    border-radius: 4px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 0.88em;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-social:hover {
+    opacity: 0.9;
+}
+
+.btn-social-icon {
+    flex-shrink: 0;
+}
+
+.btn-strava {
+    background: #FC4C02;
+    color: #ffffff;
+}
+
+.btn-google {
+    background: #ffffff;
+    color: #3c4043;
+    border: 1px solid #dadce0 !important;
+}
+
+.btn-google:hover {
+    background: #f7f8f8;
+    opacity: 1;
+}
+
+.btn-facebook {
+    background: #1877F2;
+    color: #ffffff;
+}
+
+.btn-apple {
+    background: #000000;
+    color: #ffffff;
+}
+
+/* Strava Link Banner (logged in but no Strava) */
+.strava-link-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: #FFF3ED;
+    border: 1px solid #FDDCCC;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+}
+
+.strava-link-banner p {
+    font-size: 0.88em;
+    color: #7A3D10;
+    margin: 0;
+}
+
+.btn-strava-sm {
+    display: inline-block;
+    padding: 8px 20px;
+    background: #FC4C02;
+    color: #ffffff;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 0.82em;
+    font-weight: 700;
+    border: none;
+    border-radius: 4px;
+    white-space: nowrap;
+    transition: background 0.25s ease;
+}
+
+.btn-strava-sm:hover {
+    background: #e04400;
+}
+
+/* Club Stats Bar */
+.club-stats-bar {
+    display: flex;
+    gap: 0;
+    background: #0B3C56;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+
+.club-stat {
+    flex: 1;
+    padding: 20px 16px;
+    text-align: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.club-stat:last-child {
+    border-right: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.club-stat-value {
+    display: block;
+    font-size: 1.6em;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+}
+
+.club-stat-label {
+    display: block;
+    font-size: 0.72em;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+}
+
+.club-stat-link {
+    color: #277e6e;
+    font-size: 0.82em;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.club-stat-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #3aaf95;
+}
+
+/* Leaderboard Section */
+.leaderboard-section {
+    margin-bottom: 40px;
+}
+
+.leaderboard-section-title {
+    font-size: 0.82em;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #0B3C56;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #0B3C56;
+}
+
+/* Leaderboard Table */
+.leaderboard-table-wrap {
+    overflow-x: auto;
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+.leaderboard-table thead th {
+    font-size: 0.72em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #999;
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.leaderboard-table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.15s;
+}
+
+.leaderboard-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.leaderboard-table tbody td {
+    padding: 12px 12px;
+    color: #333;
+}
+
+.col-rank {
+    width: 48px;
+    text-align: center !important;
+}
+
+.col-distance {
+    white-space: nowrap;
+}
+
+.col-pace,
+.col-time,
+.col-elevation {
+    white-space: nowrap;
+    color: #666;
+}
+
+.col-runs {
+    text-align: center;
+}
+
+.medal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 0.78em;
+    font-weight: 700;
+    color: white;
+}
+
+.medal.gold {
+    background: #D4A843;
+}
+
+.medal.silver {
+    background: #8E9EAB;
+}
+
+.medal.bronze {
+    background: #B87333;
+}
+
+.top-three td {
+    font-weight: 600;
+}
+
+/* Activity Feed */
+.activity-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.feed-item {
+    display: flex;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f0f0f0;
+    align-items: flex-start;
+}
+
+.feed-item:last-child {
+    border-bottom: none;
+}
+
+.feed-athlete {
+    font-weight: 700;
+    font-size: 0.88em;
+    color: #0B3C56;
+    min-width: 120px;
+    white-space: nowrap;
+}
+
+.feed-details {
+    flex: 1;
+}
+
+.feed-name {
+    display: block;
+    font-size: 0.88em;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.feed-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 0.78em;
+    color: #999;
+}
+
+.feed-stats span {
+    white-space: nowrap;
+}
+
+/* Leaderboard Footer */
+.leaderboard-footer {
+    text-align: center;
+    padding: 24px 0 0;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 16px;
+}
+
+.leaderboard-footer p {
+    font-size: 0.82em;
+    color: #999;
+}
+
+.leaderboard-footer a {
+    color: #277e6e;
+    font-weight: 600;
+}
+
+.leaderboard-footer a:hover {
+    text-decoration: underline;
+}
+
 /* ══════════════════════════════════
    RESPONSIVE
    ══════════════════════════════════ */
@@ -982,6 +1343,37 @@ img {
 
 /* ── Mobile ── */
 @media (max-width: 768px) {
+    .club-stats-bar {
+        flex-wrap: wrap;
+    }
+
+    .club-stat {
+        flex: 1 1 50%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .club-stat:nth-child(2) {
+        border-right: none;
+    }
+
+    .leaderboard-table {
+        font-size: 0.82em;
+    }
+
+    .col-elevation,
+    .col-time {
+        display: none;
+    }
+
+    .feed-athlete {
+        min-width: 80px;
+    }
+
+    .feed-stats {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
     .nav-links {
         display: none;
     }

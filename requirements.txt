@@ -1,5 +1,7 @@
 Django>=5.2
 gunicorn
-psycopg2-binary
+google-cloud-firestore
 django-storages[google]
+django-allauth[socialaccount]
+requests
 Pillow

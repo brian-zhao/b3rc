@@ -18,7 +18,7 @@ As you work, keep the plan updated. After completing each task, append a descrip
 |-------|--------|
 | Framework | Django 5.2+ (Python 3.12) |
 | Structure | Single-project, no separate Django apps — all views and URL routing live in `b3rc_site/` |
-| Database | SQLite3 (`db.sqlite3`) — no custom models yet |
+| Database | Google Firestore (persistent) + SQLite (ephemeral cache for Django internals) |
 | Templates | `templates/` — extends `base.html` |
 | Static | `static/` (source) → `staticfiles/` (collected for deploy) |
 | Deployment | Google App Engine (F1 instances, `app.yaml`) via `gunicorn` |

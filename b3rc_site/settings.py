@@ -38,8 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.strava',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
     'b3rc_site',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -50,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'b3rc_site.urls'
@@ -77,25 +87,29 @@ WSGI_APPLICATION = 'b3rc_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# SQLite everywhere — used only for Django internals (auth, sessions, etc.)
+# Real application data (SiteMedia, CarouselImage) is persisted in Firestore
+# and synced into SQLite on startup via `manage.py sync_from_firestore`.
 if os.getenv('GAE_APPLICATION'):
-    # Production: Cloud SQL PostgreSQL
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'HOST': '/cloudsql/b3rc-467810:australia-southeast1:b3rc-db',
-            'NAME': 'b3rc',
-            'USER': 'b3rc',
-            'PASSWORD': os.getenv('DB_PASSWORD', ''),
-        }
-    }
+    # Production: /tmp is the only writable directory on GAE.
+    # Tables are created by migrate and populated by sync_from_firestore on startup.
+    _db_path = '/tmp/db.sqlite3'
 else:
-    # Local development: SQLite
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+    _db_path = BASE_DIR / 'db.sqlite3'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': _db_path,
     }
+}
+
+# DB-backed sessions (required by django-allauth for OAuth state)
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+# Firestore settings
+FIRESTORE_PROJECT_ID = os.getenv('FIRESTORE_PROJECT_ID', 'b3rc-467810')
+FIRESTORE_DATABASE_ID = os.getenv('FIRESTORE_DATABASE_ID', 'b3rc')
 
 
 # Password validation
@@ -174,3 +188,35 @@ else:
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ── django-allauth ──
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_LOGIN_ON_GET = True
+LOGIN_REDIRECT_URL = '/leaderboard/'
+LOGOUT_REDIRECT_URL = '/'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'strava': {
+        'SCOPE': ['read', 'activity:read'],
+    },
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+    },
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile'],
+        'FIELDS': ['id', 'email', 'name', 'first_name', 'last_name'],
+        'VERSION': 'v19.0',
+    },
+}
+
+# Strava API settings
+STRAVA_CLUB_ID = os.getenv('STRAVA_CLUB_ID', '1331912')
+STRAVA_CLIENT_ID = os.getenv('STRAVA_CLIENT_ID', 'PLACEHOLDER_CLIENT_ID')
+STRAVA_CLIENT_SECRET = os.getenv('STRAVA_CLIENT_SECRET', 'PLACEHOLDER_CLIENT_SECRET')
