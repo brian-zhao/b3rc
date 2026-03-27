@@ -261,6 +261,38 @@ img {
     text-align: center;
 }
 
+.tagline-has-bg {
+    position: relative;
+    max-width: none;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.tagline-has-bg > *:not(.tagline-overlay) {
+    position: relative;
+    z-index: 1;
+}
+
+.tagline-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 0;
+}
+
+.tagline-has-bg .tagline-eyebrow {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.tagline-has-bg .tagline-title {
+    color: #ffffff;
+}
+
+.tagline-has-bg .tagline-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+}
+
 .tagline-eyebrow {
     font-size: 0.78em;
     font-weight: 400;

@@ -29,7 +29,8 @@
     </section>
 
     <!-- Tagline -->
-    <section class="tagline">
+    <section class="tagline{% if site_media.tagline_bg %} tagline-has-bg{% endif %}"{% if site_media.tagline_bg %} style="background-image: url('{{ site_media.tagline_bg.file.url }}');"{% endif %}>
+        {% if site_media.tagline_bg %}<div class="tagline-overlay"></div>{% endif %}
         <p class="tagline-eyebrow">{% trans "Breaking 3 Running Club — Sydney" %}</p>
         <h1 class="tagline-title">{% trans "Train Hard." %}<br>{% trans "Sweat Hard." %}</h1>
         <p class="tagline-subtitle">{% trans "A performance-driven community built around the pursuit of the sub-3-hour marathon. Every session counts." %}</p>

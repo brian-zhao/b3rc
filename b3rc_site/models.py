@@ -8,6 +8,7 @@ class SiteMedia(models.Model):
         ('photo_strip_1', 'Home — Photo Strip 1 (left)'),
         ('photo_strip_2', 'Home — Photo Strip 2 (center)'),
         ('photo_strip_3', 'Home — Photo Strip 3 (right)'),
+        ('tagline_bg', 'Home — Tagline Background'),
     ]
 
     slot = models.CharField(max_length=30, choices=SLOT_CHOICES, unique=True)
