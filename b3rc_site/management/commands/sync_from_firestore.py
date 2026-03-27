@@ -6,8 +6,13 @@ Run on every GAE instance startup, before gunicorn starts.
 from django.core.management.base import BaseCommand
 from django.utils.dateparse import parse_datetime
 
+from decimal import Decimal
+
 from b3rc_site import firestore_service, signals
-from b3rc_site.models import SiteMedia, CarouselImage
+from b3rc_site.models import (
+    SiteMedia, CarouselImage,
+    Product, ProductImage, ProductVariant, Order, OrderItem,
+)
 
 
 class Command(BaseCommand):
@@ -19,6 +24,11 @@ class Command(BaseCommand):
         try:
             self._sync_site_media()
             self._sync_carousel_images()
+            self._sync_products()
+            self._sync_product_images()
+            self._sync_product_variants()
+            self._sync_orders()
+            self._sync_order_items()
         finally:
             signals._syncing = False
 
@@ -61,3 +71,127 @@ class Command(BaseCommand):
         self.stdout.write(
             f'Synced {count} CarouselImage record(s) from Firestore'
         )
+
+    def _sync_products(self):
+        docs = firestore_service.list_products()
+        count = 0
+        for doc in docs:
+            Product.objects.update_or_create(
+                slug=doc['slug'],
+                defaults={
+                    'name': doc.get('name', ''),
+                    'short_description': doc.get('short_description', ''),
+                    'description': doc.get('description', ''),
+                    'category': doc.get('category', 'APPAREL'),
+                    'base_price': Decimal(doc.get('base_price', '0')),
+                    'is_active': doc.get('is_active', True),
+                    'is_preorder': doc.get('is_preorder', False),
+                    'preorder_eta': doc.get('preorder_eta', ''),
+                    'sort_order': doc.get('sort_order', 0),
+                },
+            )
+            count += 1
+        self.stdout.write(f'Synced {count} Product record(s) from Firestore')
+
+    def _sync_product_images(self):
+        docs = firestore_service.list_product_images()
+        count = 0
+        for doc in docs:
+            try:
+                product = Product.objects.get(slug=doc['product_slug'])
+            except Product.DoesNotExist:
+                continue
+            ProductImage.objects.update_or_create(
+                pk=doc['pk'],
+                defaults={
+                    'product': product,
+                    'image': doc.get('image', ''),
+                    'alt_text': doc.get('alt_text', ''),
+                    'order': doc.get('order', 0),
+                },
+            )
+            count += 1
+        self.stdout.write(f'Synced {count} ProductImage record(s) from Firestore')
+
+    def _sync_product_variants(self):
+        docs = firestore_service.list_product_variants()
+        count = 0
+        for doc in docs:
+            try:
+                product = Product.objects.get(slug=doc['product_slug'])
+            except Product.DoesNotExist:
+                continue
+            price_override = doc.get('price_override')
+            ProductVariant.objects.update_or_create(
+                sku=doc['sku'],
+                defaults={
+                    'product': product,
+                    'size': doc.get('size', ''),
+                    'color': doc.get('color', ''),
+                    'stock': doc.get('stock', 0),
+                    'price_override': Decimal(price_override) if price_override is not None else None,
+                },
+            )
+            count += 1
+        self.stdout.write(f'Synced {count} ProductVariant record(s) from Firestore')
+
+    def _sync_orders(self):
+        from django.contrib.auth.models import User
+        docs = firestore_service.list_orders()
+        count = 0
+        for doc in docs:
+            user = None
+            user_id = doc.get('user_id')
+            if user_id:
+                user = User.objects.filter(pk=user_id).first()
+            paid_at = doc.get('paid_at')
+            if isinstance(paid_at, str):
+                paid_at = parse_datetime(paid_at)
+            Order.objects.update_or_create(
+                order_number=doc['order_number'],
+                defaults={
+                    'user': user,
+                    'email': doc.get('email', ''),
+                    'status': doc.get('status', 'PENDING'),
+                    'stripe_session_id': doc.get('stripe_session_id', ''),
+                    'stripe_payment_intent': doc.get('stripe_payment_intent', ''),
+                    'shipping_name': doc.get('shipping_name', ''),
+                    'shipping_address': doc.get('shipping_address', ''),
+                    'shipping_method': doc.get('shipping_method', 'PICKUP'),
+                    'shipping_cost': Decimal(doc.get('shipping_cost', '0')),
+                    'subtotal': Decimal(doc.get('subtotal', '0')),
+                    'total': Decimal(doc.get('total', '0')),
+                    'paid_at': paid_at,
+                },
+            )
+            count += 1
+        self.stdout.write(f'Synced {count} Order record(s) from Firestore')
+
+    def _sync_order_items(self):
+        docs = firestore_service.list_order_items()
+        count = 0
+        for doc in docs:
+            try:
+                order = Order.objects.get(order_number=doc['order_number'])
+            except Order.DoesNotExist:
+                continue
+            product = None
+            product_id = doc.get('product_id')
+            if product_id:
+                product = Product.objects.filter(pk=product_id).first()
+            OrderItem.objects.update_or_create(
+                pk=doc['pk'],
+                defaults={
+                    'order': order,
+                    'product': product,
+                    'product_name': doc.get('product_name', ''),
+                    'variant_sku': doc.get('variant_sku', ''),
+                    'size': doc.get('size', ''),
+                    'color': doc.get('color', ''),
+                    'quantity': doc.get('quantity', 0),
+                    'unit_price': Decimal(doc.get('unit_price', '0')),
+                    'line_total': Decimal(doc.get('line_total', '0')),
+                },
+            )
+            count += 1
+        self.stdout.write(f'Synced {count} OrderItem record(s) from Firestore')

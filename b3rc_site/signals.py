@@ -56,3 +56,115 @@ def carousel_image_deleted(sender, instance, **kwargs):
         firestore_service.delete_carousel_image(instance.pk)
     except Exception:
         logger.exception('Failed to delete CarouselImage from Firestore')
+
+
+# ── Shop signals ─────────────────────────────────────────────────────────────
+
+@receiver(post_save, sender='b3rc_site.Product')
+def product_saved(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.save_product(instance)
+    except Exception:
+        logger.exception('Failed to sync Product to Firestore')
+
+
+@receiver(post_delete, sender='b3rc_site.Product')
+def product_deleted(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.delete_product(instance.slug)
+    except Exception:
+        logger.exception('Failed to delete Product from Firestore')
+
+
+@receiver(post_save, sender='b3rc_site.ProductImage')
+def product_image_saved(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.save_product_image(instance)
+    except Exception:
+        logger.exception('Failed to sync ProductImage to Firestore')
+
+
+@receiver(post_delete, sender='b3rc_site.ProductImage')
+def product_image_deleted(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.delete_product_image(instance.pk)
+    except Exception:
+        logger.exception('Failed to delete ProductImage from Firestore')
+
+
+@receiver(post_save, sender='b3rc_site.ProductVariant')
+def product_variant_saved(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.save_product_variant(instance)
+    except Exception:
+        logger.exception('Failed to sync ProductVariant to Firestore')
+
+
+@receiver(post_delete, sender='b3rc_site.ProductVariant')
+def product_variant_deleted(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.delete_product_variant(instance.sku)
+    except Exception:
+        logger.exception('Failed to delete ProductVariant from Firestore')
+
+
+@receiver(post_save, sender='b3rc_site.Order')
+def order_saved(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.save_order(instance)
+    except Exception:
+        logger.exception('Failed to sync Order to Firestore')
+
+
+@receiver(post_delete, sender='b3rc_site.Order')
+def order_deleted(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.delete_order(instance.order_number)
+    except Exception:
+        logger.exception('Failed to delete Order from Firestore')
+
+
+@receiver(post_save, sender='b3rc_site.OrderItem')
+def order_item_saved(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.save_order_item(instance)
+    except Exception:
+        logger.exception('Failed to sync OrderItem to Firestore')
+
+
+@receiver(post_delete, sender='b3rc_site.OrderItem')
+def order_item_deleted(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.delete_order_item(instance.pk)
+    except Exception:
+        logger.exception('Failed to delete OrderItem from Firestore')

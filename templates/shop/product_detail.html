@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ product.name }} — B3RC Shop{% endblock %}
+
+{% block content %}
+<div class="page-content">
+    <div class="container">
+
+        <nav class="breadcrumb">
+            <a href="{% url 'shop' %}">{% trans "Shop" %}</a>
+            <span>/</span>
+            <span>{{ product.name }}</span>
+        </nav>
+
+        <div class="product-detail">
+            <!-- Image Gallery -->
+            <div class="product-gallery">
+                {% if images %}
+                <div class="gallery-main">
+                    <img id="mainImage" src="{{ images.0.image.url }}" alt="{{ images.0.alt_text|default:product.name }}">
+                </div>
+                {% if images.count > 1 %}
+                <div class="gallery-thumbs">
+                    {% for img in images %}
+                    <button class="gallery-thumb {% if forloop.first %}active{% endif %}" data-src="{{ img.image.url }}" aria-label="{% trans 'View image' %} {{ forloop.counter }}">
+                        <img src="{{ img.image.url }}" alt="{{ img.alt_text }}" loading="lazy">
+                    </button>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% else %}
+                <div class="gallery-main">
+                    <div class="product-card-placeholder product-detail-placeholder">
+                        <span>B3RC</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Product Info -->
+            <div class="product-info">
+                <p class="product-category">{{ product.get_category_display }}</p>
+                <h1 class="product-name">{{ product.name }}</h1>
+                <p class="product-price" id="productPrice">{{ product.price_display }} AUD</p>
+
+                {% if product.is_preorder %}
+                <p class="product-preorder-note">{% trans "Pre-order" %} — {{ product.preorder_eta }}</p>
+                {% endif %}
+
+                <form method="post" action="{% url 'cart_add' %}" class="product-form" id="addToCartForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="sku" id="selectedSku" value="">
+
+                    {% if sizes %}
+                    <div class="variant-picker">
+                        <label class="variant-label">{% trans "Size" %}</label>
+                        <div class="variant-options" id="sizeOptions">
+                            {% for size in sizes %}
+                            <button type="button" class="variant-btn size-btn" data-size="{{ size }}">{{ size }}</button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if colors %}
+                    <div class="variant-picker">
+                        <label class="variant-label">{% trans "Color" %}</label>
+                        <div class="variant-options" id="colorOptions">
+                            {% for color in colors %}
+                            <button type="button" class="variant-btn color-btn" data-color="{{ color }}">{{ color }}</button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="variant-picker">
+                        <label class="variant-label">{% trans "Quantity" %}</label>
+                        <div class="quantity-control">
+                            <button type="button" class="qty-btn" id="qtyMinus">-</button>
+                            <input type="number" name="quantity" value="1" min="1" max="10" id="qtyInput" readonly>
+                            <button type="button" class="qty-btn" id="qtyPlus">+</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-add-to-cart" id="addToCartBtn" disabled>
+                        {% trans "Select a size" %}
+                    </button>
+
+                    <p class="stock-note" id="stockNote"></p>
+                </form>
+
+                <div class="shipping-info">
+                    <p>{% trans "Free pickup at training" %}</p>
+                    <p>{% trans "$10 flat rate shipping (Australia)" %}</p>
+                </div>
+
+                {% if product.description %}
+                <div class="product-description">
+                    {{ product.description|linebreaks }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+(function() {
+    var variants = {{ variant_data|safe }};
+    var selectedSize = null;
+    var selectedColor = null;
+    var skuInput = document.getElementById('selectedSku');
+    var priceEl = document.getElementById('productPrice');
+    var addBtn = document.getElementById('addToCartBtn');
+    var stockNote = document.getElementById('stockNote');
+    var qtyInput = document.getElementById('qtyInput');
+
+    function findVariant() {
+        for (var i = 0; i < variants.length; i++) {
+            var v = variants[i];
+            if (v.size === selectedSize && (!v.color || v.color === selectedColor || !selectedColor)) {
+                return v;
+            }
+        }
+        return null;
+    }
+
+    function updateUI() {
+        var v = findVariant();
+        if (v) {
+            skuInput.value = v.sku;
+            priceEl.textContent = '$' + parseFloat(v.price).toFixed(2) + ' AUD';
+            if (v.stock > 0) {
+                addBtn.disabled = false;
+                addBtn.textContent = '{% trans "Add to Cart" %}';
+                stockNote.textContent = v.stock <= 5 ? 'Only ' + v.stock + ' left' : '';
+            } else {
+                addBtn.disabled = true;
+                addBtn.textContent = '{% trans "Sold Out" %}';
+                stockNote.textContent = '';
+            }
+        } else if (selectedSize) {
+            addBtn.disabled = true;
+            addBtn.textContent = '{% trans "Unavailable" %}';
+            stockNote.textContent = '';
+        }
+    }
+
+    document.querySelectorAll('.size-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.size-btn').forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            selectedSize = btn.dataset.size;
+            updateUI();
+        });
+    });
+
+    document.querySelectorAll('.color-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.color-btn').forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            selectedColor = btn.dataset.color;
+            updateUI();
+        });
+    });
+
+    document.getElementById('qtyMinus').addEventListener('click', function() {
+        var v = parseInt(qtyInput.value);
+        if (v > 1) qtyInput.value = v - 1;
+    });
+    document.getElementById('qtyPlus').addEventListener('click', function() {
+        var v = parseInt(qtyInput.value);
+        if (v < 10) qtyInput.value = v + 1;
+    });
+
+    // Image gallery
+    document.querySelectorAll('.gallery-thumb').forEach(function(thumb) {
+        thumb.addEventListener('click', function() {
+            document.querySelectorAll('.gallery-thumb').forEach(function(t) { t.classList.remove('active'); });
+            thumb.classList.add('active');
+            document.getElementById('mainImage').src = thumb.dataset.src;
+        });
+    });
+})();
+</script>
+{% endblock %}

@@ -197,7 +197,8 @@ AUTHENTICATION_BACKENDS = [
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_LOGIN_ON_GET = True
-LOGIN_REDIRECT_URL = '/leaderboard/'
+ACCOUNT_LOGOUT_ON_GET = True  # skip the "are you sure?" confirmation page
+LOGIN_REDIRECT_URL = '/account/'
 LOGOUT_REDIRECT_URL = '/'
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -220,3 +221,21 @@ SOCIALACCOUNT_PROVIDERS = {
 STRAVA_CLUB_ID = os.getenv('STRAVA_CLUB_ID', '1331912')
 STRAVA_CLIENT_ID = os.getenv('STRAVA_CLIENT_ID', 'PLACEHOLDER_CLIENT_ID')
 STRAVA_CLIENT_SECRET = os.getenv('STRAVA_CLIENT_SECRET', 'PLACEHOLDER_CLIENT_SECRET')
+
+# Stripe settings
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY', '')
+STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET', '')
+STRIPE_SHIPPING_RATE_STANDARD = 1000  # $10.00 AUD in cents
+
+# ── Email ──
+EMAIL_BACKEND = os.getenv(
+    'EMAIL_BACKEND',
+    'django.core.mail.backends.console.EmailBackend',  # prints to terminal in dev
+)
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.sendgrid.net')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = os.getenv('SENDGRID_API_KEY', '')
+DEFAULT_FROM_EMAIL = 'B3RC Shop <info@b3rc.com.au>'

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Shop — B3RC{% endblock %}
+
+{% block content %}
+<div class="page-content">
+    <div class="container shop-container">
+
+        <div class="shop-header">
+            <p class="section-eyebrow">{% trans "Club Shop" %}</p>
+            <h1 class="section-title">{% trans "Gear Up. Break 3." %}</h1>
+            <p class="section-intro">{% trans "Official B3RC apparel and running gear. Designed for performance, built for the club." %}</p>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="shop-filters">
+            <a href="{% url 'shop' %}" class="filter-btn {% if not current_category %}active{% endif %}">{% trans "All" %}</a>
+            {% for code, label in categories %}
+            <a href="{% url 'shop' %}?category={{ code|lower }}" class="filter-btn {% if current_category == code %}active{% endif %}">{{ label }}</a>
+            {% endfor %}
+        </div>
+
+        <!-- Product Grid -->
+        {% if products %}
+        <div class="product-grid">
+            {% for product in products %}
+            <a href="{% url 'product_detail' product.slug %}" class="product-card">
+                <div class="product-card-image">
+                    {% if product.primary_image %}
+                    <img src="{{ product.primary_image.image.url }}" alt="{{ product.primary_image.alt_text|default:product.name }}" loading="lazy">
+                    {% else %}
+                    <div class="product-card-placeholder">
+                        <span>B3RC</span>
+                    </div>
+                    {% endif %}
+
+                    {% if product.is_preorder %}
+                    <span class="product-badge badge-preorder">{% trans "Pre-order" %}</span>
+                    {% elif not product.in_stock %}
+                    <span class="product-badge badge-soldout">{% trans "Sold Out" %}</span>
+                    {% endif %}
+                </div>
+                <div class="product-card-info">
+                    <h3 class="product-card-name">{{ product.name }}</h3>
+                    {% if product.short_description %}
+                    <p class="product-card-desc">{{ product.short_description }}</p>
+                    {% endif %}
+                    <p class="product-card-price">{{ product.price_display }} AUD</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="shop-empty">
+            <p>{% trans "No products available yet. Check back soon." %}</p>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

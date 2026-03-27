@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Order {{ order.order_number }} — B3RC Shop{% endblock %}
+
+{% block content %}
+<div class="page-content">
+    <div class="container">
+
+        <nav class="breadcrumb">
+            <a href="{% url 'order_list' %}">{% trans "My Orders" %}</a>
+            <span>/</span>
+            <span>{{ order.order_number }}</span>
+        </nav>
+
+        <div class="order-detail-page">
+            <div class="order-detail-header">
+                <h1>{{ order.order_number }}</h1>
+                <span class="order-status status-{{ order.status|lower }}">{{ order.get_status_display }}</span>
+            </div>
+
+            <div class="order-detail-grid">
+                <div class="order-detail-items">
+                    <h2>{% trans "Items" %}</h2>
+                    {% for item in order.items.all %}
+                    <div class="order-detail-item">
+                        <div class="order-detail-item-info">
+                            <strong>{{ item.product_name }}</strong>
+                            <span>{{ item.size }}{% if item.color %} / {{ item.color }}{% endif %}</span>
+                            <span>{% trans "Qty" %}: {{ item.quantity }}</span>
+                        </div>
+                        <div class="order-detail-item-price">
+                            ${{ item.line_total }} AUD
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <div class="order-detail-totals">
+                        <div class="confirmation-row">
+                            <span>{% trans "Subtotal" %}</span>
+                            <span>${{ order.subtotal }} AUD</span>
+                        </div>
+                        <div class="confirmation-row">
+                            <span>{% trans "Shipping" %}</span>
+                            <span>${{ order.shipping_cost }} AUD</span>
+                        </div>
+                        <div class="confirmation-row confirmation-total">
+                            <span>{% trans "Total" %}</span>
+                            <span>${{ order.total }} AUD</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-detail-info">
+                    <h2>{% trans "Details" %}</h2>
+                    <div class="order-info-block">
+                        <label>{% trans "Date" %}</label>
+                        <p>{{ order.created_at|date:"d M Y, H:i" }}</p>
+                    </div>
+                    <div class="order-info-block">
+                        <label>{% trans "Shipping Method" %}</label>
+                        <p>{{ order.get_shipping_method_display }}</p>
+                    </div>
+                    {% if order.shipping_address %}
+                    <div class="order-info-block">
+                        <label>{% trans "Shipping Address" %}</label>
+                        <p>{{ order.shipping_name }}<br>{{ order.shipping_address }}</p>
+                    </div>
+                    {% endif %}
+                    {% if order.email %}
+                    <div class="order-info-block">
+                        <label>{% trans "Email" %}</label>
+                        <p>{{ order.email }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <a href="{% url 'order_list' %}" class="btn-secondary">&larr; {% trans "Back to Orders" %}</a>
+
+    </div>
+</div>
+{% endblock %}

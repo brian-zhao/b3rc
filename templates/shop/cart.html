@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Cart — B3RC Shop{% endblock %}
+
+{% block content %}
+<div class="page-content">
+    <div class="container cart-container">
+
+        <h1 class="section-title">{% trans "Your Cart" %}</h1>
+
+        {% if cart_items %}
+        <div class="cart-layout">
+            <div class="cart-items">
+                {% for item in cart_items %}
+                <div class="cart-item">
+                    <div class="cart-item-image">
+                        {% if item.variant.product.primary_image %}
+                        <img src="{{ item.variant.product.primary_image.image.url }}" alt="{{ item.variant.product.name }}">
+                        {% else %}
+                        <div class="cart-item-placeholder">B3RC</div>
+                        {% endif %}
+                    </div>
+                    <div class="cart-item-details">
+                        <h3 class="cart-item-name">{{ item.variant.product.name }}</h3>
+                        <p class="cart-item-variant">
+                            {{ item.variant.size }}
+                            {% if item.variant.color %} / {{ item.variant.color }}{% endif %}
+                        </p>
+                        <p class="cart-item-price">${{ item.unit_price }} AUD</p>
+                    </div>
+                    <div class="cart-item-actions">
+                        <form method="post" action="{% url 'cart' %}" class="cart-qty-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="update">
+                            <input type="hidden" name="sku" value="{{ item.variant.sku }}">
+                            <div class="quantity-control quantity-control-sm">
+                                <button type="submit" name="quantity" value="{{ item.quantity|add:'-1' }}" class="qty-btn">-</button>
+                                <span class="qty-display">{{ item.quantity }}</span>
+                                <button type="submit" name="quantity" value="{{ item.quantity|add:'1' }}" class="qty-btn">+</button>
+                            </div>
+                        </form>
+                        <form method="post" action="{% url 'cart' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="remove">
+                            <input type="hidden" name="sku" value="{{ item.variant.sku }}">
+                            <button type="submit" class="cart-remove-btn">{% trans "Remove" %}</button>
+                        </form>
+                    </div>
+                    <div class="cart-item-total">
+                        <strong>${{ item.line_total }} AUD</strong>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="cart-summary">
+                <h2 class="cart-summary-title">{% trans "Order Summary" %}</h2>
+
+                <div class="cart-summary-row">
+                    <span>{% trans "Subtotal" %}</span>
+                    <span>${{ subtotal }} AUD</span>
+                </div>
+
+                <form method="post" action="{% url 'checkout' %}" id="checkoutForm">
+                    {% csrf_token %}
+
+                    <div class="shipping-selector">
+                        <label class="shipping-option">
+                            <input type="radio" name="shipping_method" value="PICKUP"
+                                {% if shipping_method == 'PICKUP' %}checked{% endif %}>
+                            <div class="shipping-option-info">
+                                <span class="shipping-option-name">{% trans "Pickup at Training" %}</span>
+                                <span class="shipping-option-desc">{% trans "Collect at Wednesday or Sunday session" %}</span>
+                            </div>
+                            <span class="shipping-option-price">{% trans "Free" %}</span>
+                        </label>
+                        <label class="shipping-option">
+                            <input type="radio" name="shipping_method" value="STANDARD"
+                                {% if shipping_method == 'STANDARD' %}checked{% endif %}>
+                            <div class="shipping-option-info">
+                                <span class="shipping-option-name">{% trans "Standard Shipping" %}</span>
+                                <span class="shipping-option-desc">{% trans "Australia Post, 3-5 business days" %}</span>
+                            </div>
+                            <span class="shipping-option-price">$10.00</span>
+                        </label>
+                    </div>
+
+                    <div class="cart-summary-row cart-summary-total">
+                        <span>{% trans "Total" %}</span>
+                        <span id="cartTotal">${{ total }} AUD</span>
+                    </div>
+
+                    <button type="submit" class="btn-checkout">{% trans "Proceed to Checkout" %}</button>
+                </form>
+
+                <a href="{% url 'shop' %}" class="cart-continue-link">{% trans "Continue Shopping" %}</a>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="cart-empty">
+            <p>{% trans "Your cart is empty." %}</p>
+            <a href="{% url 'shop' %}" class="btn-primary">{% trans "Browse the Shop" %}</a>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<script>
+// Update total when shipping method changes
+document.querySelectorAll('input[name="shipping_method"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+        var subtotal = {{ subtotal }};
+        var shipping = this.value === 'STANDARD' ? 10 : 0;
+        document.getElementById('cartTotal').textContent = '$' + (subtotal + shipping).toFixed(2) + ' AUD';
+    });
+});
+</script>
+{% endblock %}

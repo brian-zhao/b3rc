@@ -16,6 +16,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('robots.txt', views.robots_txt, name='robots_txt'),
+    # Stripe webhook — outside i18n, no CSRF
+    path('shop/stripe/webhook/', views.stripe_webhook, name='stripe_webhook'),
 ]
 
 urlpatterns += i18n_patterns(
@@ -26,6 +28,18 @@ urlpatterns += i18n_patterns(
     path('find-us/', views.find_us, name='find_us'),
     path('sponsors/', views.sponsors, name='sponsors'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
+    # Account
+    path('account/', views.account, name='account'),
+    # Shop
+    path('shop/', views.shop_landing, name='shop'),
+    path('shop/cart/', views.cart, name='cart'),
+    path('shop/cart/add/', views.cart_add, name='cart_add'),
+    path('shop/checkout/', views.checkout, name='checkout'),
+    path('shop/checkout/success/', views.checkout_success, name='checkout_success'),
+    path('shop/checkout/cancel/', views.checkout_cancel, name='checkout_cancel'),
+    path('shop/orders/', views.order_list, name='order_list'),
+    path('shop/orders/<str:order_number>/', views.order_detail, name='order_detail'),
+    path('shop/<slug:slug>/', views.product_detail, name='product_detail'),
 )
 
 if settings.DEBUG:

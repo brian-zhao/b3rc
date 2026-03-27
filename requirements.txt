@@ -5,3 +5,5 @@ django-storages[google]
 django-allauth[socialaccount]
 requests
 Pillow
+stripe
+markdown

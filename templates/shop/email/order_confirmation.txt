@@ -1,0 +1,22 @@
+Hi{% if order.shipping_name %} {{ order.shipping_name }}{% endif %},
+
+Your B3RC order is confirmed. Here's a summary:
+
+Order: {{ order.order_number }}
+Status: {{ order.get_status_display }}
+
+ITEMS
+{% for item in order.items.all %}  {{ item.product_name }} — {{ item.size }}{% if item.color %} / {{ item.color }}{% endif %} x{{ item.quantity }}  ${{ item.line_total }} AUD
+{% endfor %}
+Subtotal: ${{ order.subtotal }} AUD
+Shipping: ${{ order.shipping_cost }} AUD
+Total: ${{ order.total }} AUD
+
+DELIVERY
+{% if order.shipping_method == 'PICKUP' %}Pickup at training — collect at Wednesday (St Lukes Oval, Concord) or Sunday 7AM (Rhodes Amphitheatre).
+{% else %}Standard shipping to {{ order.shipping_address }}
+{% endif %}
+Questions? Email info@b3rc.com.au
+
+See you on the roads,
+B3RC — Breaking 3 Running Club

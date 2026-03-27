@@ -87,10 +87,19 @@
                         <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
                         <li><a href="{% url 'about' %}">{% trans "About" %}</a></li>
                         <li><a href="{% url 'activities' %}">{% trans "Programs" %}</a></li>
+                        <li><a href="{% url 'shop' %}">{% trans "Shop" %}</a></li>
                         <li><a href="{% url 'find_us' %}">{% trans "Contact" %}</a></li>
                         <li><a href="{% url 'sponsors' %}">{% trans "Partners" %}</a></li>
                     </ul>
                 </nav>
+                <div class="nav-account">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'account' %}" class="nav-account-link">{{ user.first_name|default:user.email }}</a>
+                    <a href="{% url 'account_logout' %}" class="nav-account-link" style="opacity:0.5; font-size:0.75em;">{% trans "Sign Out" %}</a>
+                    {% else %}
+                    <a href="{% url 'account_login' %}" class="nav-account-link nav-account-signin">{% trans "Sign In" %}</a>
+                    {% endif %}
+                </div>
                 <div class="lang-switcher">
                     <button class="lang-current" aria-label="{% trans 'Switch language' %}">
                         {% get_current_language as CURRENT_LANGUAGE %}
@@ -129,8 +138,15 @@
         <a href="{% url 'home' %}">{% trans "Home" %}</a>
         <a href="{% url 'about' %}">{% trans "About" %}</a>
         <a href="{% url 'activities' %}">{% trans "Programs" %}</a>
+        <a href="{% url 'shop' %}">{% trans "Shop" %}</a>
         <a href="{% url 'find_us' %}">{% trans "Contact" %}</a>
         <a href="{% url 'sponsors' %}">{% trans "Partners" %}</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'order_list' %}">{% trans "My Orders" %}</a>
+        <a href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
+        {% else %}
+        <a href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
+        {% endif %}
     </div>
 
     {% block content %}{% endblock %}

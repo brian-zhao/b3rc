@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Order Confirmed — B3RC Shop{% endblock %}
+
+{% block content %}
+<div class="page-content">
+    <div class="container order-confirmation">
+
+        <div class="confirmation-header">
+            <div class="confirmation-icon">&#10003;</div>
+            <h1 class="section-title">{% trans "Order Confirmed" %}</h1>
+            <p class="section-intro">{% trans "Thank you for your order! We'll get your gear ready." %}</p>
+        </div>
+
+        {% if order %}
+        <div class="confirmation-details">
+            <div class="confirmation-card">
+                <h2>{% trans "Order" %} {{ order.order_number }}</h2>
+
+                <div class="confirmation-row">
+                    <span>{% trans "Status" %}</span>
+                    <span class="order-status status-{{ order.status|lower }}">{{ order.get_status_display }}</span>
+                </div>
+
+                {% if order.email %}
+                <div class="confirmation-row">
+                    <span>{% trans "Confirmation sent to" %}</span>
+                    <span>{{ order.email }}</span>
+                </div>
+                {% endif %}
+
+                <div class="confirmation-row">
+                    <span>{% trans "Shipping" %}</span>
+                    <span>{{ order.get_shipping_method_display }}</span>
+                </div>
+
+                {% if order.shipping_address %}
+                <div class="confirmation-row">
+                    <span>{% trans "Delivery address" %}</span>
+                    <span>{{ order.shipping_address }}</span>
+                </div>
+                {% endif %}
+
+                <hr>
+
+                {% for item in order.items.all %}
+                <div class="confirmation-item">
+                    <span>{{ item.product_name }} — {{ item.size }}{% if item.color %} / {{ item.color }}{% endif %} &times; {{ item.quantity }}</span>
+                    <span>${{ item.line_total }}</span>
+                </div>
+                {% endfor %}
+
+                <hr>
+
+                <div class="confirmation-row">
+                    <span>{% trans "Subtotal" %}</span>
+                    <span>${{ order.subtotal }} AUD</span>
+                </div>
+                <div class="confirmation-row">
+                    <span>{% trans "Shipping" %}</span>
+                    <span>${{ order.shipping_cost }} AUD</span>
+                </div>
+                <div class="confirmation-row confirmation-total">
+                    <span>{% trans "Total" %}</span>
+                    <span>${{ order.total }} AUD</span>
+                </div>
+            </div>
+
+            {% if order.shipping_method == 'PICKUP' %}
+            <div class="pickup-note">
+                <h3>{% trans "Pickup Information" %}</h3>
+                <p>{% trans "Collect your order at the next Wednesday quality session (St Lukes Oval, Concord) or Sunday long run (Rhodes Amphitheatre, 7 AM)." %}</p>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="confirmation-actions">
+            {% if user.is_authenticated %}
+            <a href="{% url 'order_list' %}" class="btn-primary">{% trans "View Orders" %}</a>
+            {% endif %}
+            <a href="{% url 'shop' %}" class="btn-secondary">{% trans "Continue Shopping" %}</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

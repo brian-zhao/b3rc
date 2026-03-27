@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Checkout Cancelled — B3RC Shop{% endblock %}
+
+{% block content %}
+<div class="page-content">
+    <div class="container">
+        <div class="cart-empty">
+            <h1 class="section-title">{% trans "Checkout Cancelled" %}</h1>
+            <p>{% trans "Your payment was not processed. Your cart items are still saved." %}</p>
+            <a href="{% url 'cart' %}" class="btn-primary">{% trans "Return to Cart" %}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
