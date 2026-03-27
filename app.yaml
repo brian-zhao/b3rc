@@ -1,6 +1,6 @@
 runtime: python312
 
-entrypoint: gunicorn -b :$PORT b3rc_site.wsgi
+entrypoint: python manage.py migrate --noinput && gunicorn -b :$PORT b3rc_site.wsgi
 
 instance_class: F1
 automatic_scaling:
