@@ -229,18 +229,15 @@ img {
 .hero {
     position: relative;
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - 60px);
+    margin-top: 60px;
     min-height: 560px;
-    max-height: 900px;
     overflow: hidden;
-    display: flex;
-    align-items: flex-end;
 }
 
 .hero-bg {
     position: absolute;
     inset: 0;
-    z-index: 0;
 }
 
 .hero-bg img,
@@ -256,52 +253,39 @@ img {
     background: linear-gradient(160deg, #5ca0c8 0%, #3a7ab5 40%, #1e5a8a 100%);
 }
 
-.hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        to top,
-        rgba(11, 60, 86, 0.75) 0%,
-        rgba(11, 60, 86, 0.25) 50%,
-        rgba(0, 0, 0, 0.1) 100%
-    );
-    z-index: 1;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    width: 100%;
+/* ── Tagline Section ── */
+.tagline {
+    padding: 80px 24px;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 24px 64px;
+    text-align: center;
 }
 
-.hero-eyebrow {
+.tagline-eyebrow {
     font-size: 0.78em;
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.65);
+    color: #6B6B6B;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     margin-bottom: 14px;
 }
 
-.hero-title {
+.tagline-title {
     font-size: 3.2em;
     font-weight: 700;
-    color: #ffffff;
+    color: #1A1A1A;
     letter-spacing: -0.02em;
     line-height: 1.05;
     margin-bottom: 18px;
 }
 
-.hero-subtitle {
+.tagline-subtitle {
     font-size: 1.05em;
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.85);
+    color: #6B6B6B;
     line-height: 1.7;
-    max-width: 480px;
-    margin-bottom: 32px;
+    max-width: 560px;
+    margin: 0 auto 32px;
 }
 
 .btn-primary {
@@ -899,7 +883,7 @@ img {
 
 /* ── Tablet ── */
 @media (max-width: 1024px) {
-    .hero-title {
+    .tagline-title {
         font-size: 2.6em;
     }
 
@@ -933,19 +917,20 @@ img {
 
     /* Hero */
     .hero {
-        min-height: 480px;
-        max-height: 700px;
+        height: 70vh;
+        min-height: 300px;
     }
 
-    .hero-content {
-        padding: 0 20px 48px;
+    /* Tagline */
+    .tagline {
+        padding: 48px 20px;
     }
 
-    .hero-title {
+    .tagline-title {
         font-size: 2.2em;
     }
 
-    .hero-subtitle {
+    .tagline-subtitle {
         font-size: 0.95em;
     }
 
@@ -1041,11 +1026,11 @@ img {
 
 /* ── Small phones ── */
 @media (max-width: 400px) {
-    .hero-title {
+    .tagline-title {
         font-size: 1.8em;
     }
 
-    .hero-subtitle {
+    .tagline-subtitle {
         font-size: 0.88em;
     }
 

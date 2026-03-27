@@ -11,7 +11,7 @@
 
 {% block content %}
 <main>
-    <!-- Hero -->
+    <!-- Hero Image -->
     <section class="hero" id="home">
         <div class="hero-bg">
             {% if site_media.hero_bg %}
@@ -26,13 +26,14 @@
                 <div class="image-placeholder"></div>
             {% endif %}
         </div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <p class="hero-eyebrow">{% trans "Breaking 3 Running Club — Sydney" %}</p>
-            <h1 class="hero-title">{% trans "Train Hard." %}<br>{% trans "Sweat Hard." %}</h1>
-            <p class="hero-subtitle">{% trans "A performance-driven community built around the pursuit of the sub-3-hour marathon. Every session counts." %}</p>
-            <a href="{% url 'about' %}" class="btn-primary">{% trans "Join B3RC" %}</a>
-        </div>
+    </section>
+
+    <!-- Tagline -->
+    <section class="tagline">
+        <p class="tagline-eyebrow">{% trans "Breaking 3 Running Club — Sydney" %}</p>
+        <h1 class="tagline-title">{% trans "Train Hard." %}<br>{% trans "Sweat Hard." %}</h1>
+        <p class="tagline-subtitle">{% trans "A performance-driven community built around the pursuit of the sub-3-hour marathon. Every session counts." %}</p>
+        <a href="{% url 'about' %}" class="btn-primary">{% trans "Join B3RC" %}</a>
     </section>
 
     <!-- About -->
@@ -173,6 +174,21 @@
                 <p><strong>{% trans "Sunday, 7 AM" %}</strong><br>{% trans "Rhodes Amphitheatre" %}</p>
                 <p style="margin-top: 16px;">info@b3rc.com.au</p>
                 <a href="mailto:info@b3rc.com.au" class="btn-outline">{% trans "Contact Us" %}</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners -->
+    <section class="section-alt">
+        <div class="section section-center" id="partners">
+            <p class="section-eyebrow">{% trans "Partnerships" %}</p>
+            <h2 class="section-title">{% trans "Our Partners" %}</h2>
+            <p class="section-intro">{% trans "Breaking the 3-hour barrier is a team effort. We're proud to work with brands and organisations that share our commitment to performance and community." %}</p>
+
+            <div class="cta-box">
+                <h3>{% trans "Partner with B3RC" %}</h3>
+                <p>{% trans "Interested in supporting Sydney's most ambitious running community? Let's talk." %}</p>
+                <a href="mailto:info@b3rc.com.au" class="btn-primary">{% trans "Contact Us" %}</a>
             </div>
         </div>
     </section>
