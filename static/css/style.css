@@ -528,45 +528,92 @@ img {
     font-weight: 400;
 }
 
-/* ── Photo Strip ── */
-.photo-strip {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
+/* ── Image Carousel ── */
+.carousel {
+    position: relative;
     width: 100%;
-}
-
-.photo-strip-item {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 21 / 9;
     overflow: hidden;
+    background: #0B3C56;
 }
 
-.photo-strip-item img {
+.carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+.carousel-slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
 }
 
-.photo-strip-item:hover img {
-    transform: scale(1.04);
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.35);
+    color: white;
+    border: none;
+    font-size: 2em;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
-.photo-strip-item .image-placeholder {
-    width: 100%;
-    height: 100%;
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.6);
 }
 
-.photo-strip-item:nth-child(1) .image-placeholder {
-    background: linear-gradient(135deg, #6db3d4 0%, #4a95bf 100%);
+.carousel-prev {
+    left: 16px;
 }
 
-.photo-strip-item:nth-child(2) .image-placeholder {
-    background: linear-gradient(135deg, #4a95bf 0%, #3578a5 100%);
+.carousel-next {
+    right: 16px;
 }
 
-.photo-strip-item:nth-child(3) .image-placeholder {
-    background: linear-gradient(135deg, #3578a5 0%, #1e5a8a 100%);
+.carousel-dots {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s ease;
+}
+
+.carousel-dot.active {
+    background: white;
+    border-color: white;
 }
 
 /* ── CTA Banner ── */
@@ -995,12 +1042,8 @@ img {
         grid-template-columns: 1fr;
     }
 
-    /* Photo strip */
-    .photo-strip {
-        grid-template-columns: 1fr;
-    }
-
-    .photo-strip-item {
+    /* Carousel */
+    .carousel {
         aspect-ratio: 16 / 9;
     }
 

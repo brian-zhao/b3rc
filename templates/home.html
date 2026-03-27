@@ -80,30 +80,27 @@
         </section>
     </div>
 
-    <!-- Photo Strip -->
-    <section class="photo-strip">
-        <div class="photo-strip-item">
-            {% if site_media.photo_strip_1 %}
-            <img src="{{ site_media.photo_strip_1.file.url }}" alt="{{ site_media.photo_strip_1.alt_text }}">
-            {% else %}
-            <div class="image-placeholder"></div>
-            {% endif %}
+    <!-- Image Carousel -->
+    {% if carousel_images %}
+    <section class="carousel">
+        <div class="carousel-track">
+            {% for img in carousel_images %}
+            <div class="carousel-slide{% if forloop.first %} active{% endif %}">
+                <img src="{{ img.image.url }}" alt="{{ img.alt_text }}">
+            </div>
+            {% endfor %}
         </div>
-        <div class="photo-strip-item">
-            {% if site_media.photo_strip_2 %}
-            <img src="{{ site_media.photo_strip_2.file.url }}" alt="{{ site_media.photo_strip_2.alt_text }}">
-            {% else %}
-            <div class="image-placeholder"></div>
-            {% endif %}
+        {% if carousel_images|length > 1 %}
+        <button class="carousel-btn carousel-prev" aria-label="Previous">&#8249;</button>
+        <button class="carousel-btn carousel-next" aria-label="Next">&#8250;</button>
+        <div class="carousel-dots">
+            {% for img in carousel_images %}
+            <button class="carousel-dot{% if forloop.first %} active{% endif %}" data-index="{{ forloop.counter0 }}" aria-label="Slide {{ forloop.counter }}"></button>
+            {% endfor %}
         </div>
-        <div class="photo-strip-item">
-            {% if site_media.photo_strip_3 %}
-            <img src="{{ site_media.photo_strip_3.file.url }}" alt="{{ site_media.photo_strip_3.alt_text }}">
-            {% else %}
-            <div class="image-placeholder"></div>
-            {% endif %}
-        </div>
+        {% endif %}
     </section>
+    {% endif %}
 
     <!-- Why B3RC -->
     <section class="section section-center" id="why">
@@ -194,4 +191,44 @@
         </div>
     </section>
 </main>
+
+{% if carousel_images|length > 1 %}
+<script>
+(function() {
+    const track = document.querySelector('.carousel-track');
+    if (!track) return;
+    const slides = track.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dot');
+    const prev = document.querySelector('.carousel-prev');
+    const next = document.querySelector('.carousel-next');
+    let current = 0;
+    let timer;
+
+    function goTo(i) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (i + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+    }
+
+    function autoPlay() {
+        timer = setInterval(function() { goTo(current + 1); }, 5000);
+    }
+
+    function resetTimer() {
+        clearInterval(timer);
+        autoPlay();
+    }
+
+    prev.addEventListener('click', function() { goTo(current - 1); resetTimer(); });
+    next.addEventListener('click', function() { goTo(current + 1); resetTimer(); });
+    dots.forEach(function(dot) {
+        dot.addEventListener('click', function() { goTo(+this.dataset.index); resetTimer(); });
+    });
+
+    autoPlay();
+})();
+</script>
+{% endif %}
 {% endblock %}
