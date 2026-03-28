@@ -62,6 +62,25 @@
             {% endif %}
         </div>
 
+        <!-- Leaderboard shortcut -->
+        <div class="account-section">
+            <div class="account-section-header">
+                <h2 class="account-section-title">{% trans "Club" %}</h2>
+                <a href="{% url 'leaderboard' %}" class="account-section-link">{% trans "View leaderboard" %} &rarr;</a>
+            </div>
+            <a href="{% url 'leaderboard' %}" class="leaderboard-shortcut">
+                <svg width="20" height="20" viewBox="0 0 64 64" fill="none">
+                    <path d="M41.03 47.22l-5.95-11.84h-7.43L41.03 64l13.38-28.62h-7.43L41.03 47.22z" fill="#FC4C02"/>
+                    <path d="M27.65 35.38l7.43 0L22.57 8 9.59 35.38h7.43l5.55-11.84 5.08 11.84z" fill="#FC4C02"/>
+                </svg>
+                <div>
+                    <div style="font-weight:600; font-size:14px;">{% trans "B3 Running Club Leaderboard" %}</div>
+                    <div style="font-size:12px; color:#6b6b6b; margin-top:2px;">{% trans "This week & last week's top runners" %}</div>
+                </div>
+                <span style="margin-left:auto; color:#999; font-size:18px;">&rsaquo;</span>
+            </a>
+        </div>
+
         <!-- Linked accounts -->
         <div class="account-section">
             <div class="account-section-header">
@@ -188,6 +207,23 @@
     text-decoration: none;
 }
 .connect-link:hover { color: #1a1a1a; }
+
+.leaderboard-shortcut {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border: 1px solid rgba(252,76,2,0.2);
+    border-radius: 10px;
+    background: rgba(252,76,2,0.03);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, background 0.2s;
+}
+.leaderboard-shortcut:hover {
+    border-color: rgba(252,76,2,0.5);
+    background: rgba(252,76,2,0.06);
+}
 
 @media (max-width: 768px) {
     .account-profile { flex-wrap: wrap; }

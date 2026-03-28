@@ -198,12 +198,13 @@ AUTHENTICATION_BACKENDS = [
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_LOGIN_ON_GET = True
 ACCOUNT_LOGOUT_ON_GET = True  # skip the "are you sure?" confirmation page
+SOCIALACCOUNT_STORE_TOKENS = True
 LOGIN_REDIRECT_URL = '/account/'
 LOGOUT_REDIRECT_URL = '/'
 
 SOCIALACCOUNT_PROVIDERS = {
     'strava': {
-        'SCOPE': ['read', 'activity:read'],
+        'SCOPE': ['read'],
     },
     'google': {
         'SCOPE': ['profile', 'email'],

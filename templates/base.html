@@ -90,6 +90,7 @@
                         <li><a href="{% url 'shop' %}">{% trans "Shop" %}</a></li>
                         <li><a href="{% url 'find_us' %}">{% trans "Contact" %}</a></li>
                         <li><a href="{% url 'sponsors' %}">{% trans "Partners" %}</a></li>
+                        <li><a href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a></li>
                     </ul>
                 </nav>
                 <div class="nav-account">
@@ -141,6 +142,7 @@
         <a href="{% url 'shop' %}">{% trans "Shop" %}</a>
         <a href="{% url 'find_us' %}">{% trans "Contact" %}</a>
         <a href="{% url 'sponsors' %}">{% trans "Partners" %}</a>
+        <a href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a>
         {% if user.is_authenticated %}
         <a href="{% url 'order_list' %}">{% trans "My Orders" %}</a>
         <a href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
@@ -164,6 +166,7 @@
                     <li><a href="{% url 'about' %}">{% trans "About" %}</a></li>
                     <li><a href="{% url 'activities' %}">{% trans "Programs" %}</a></li>
                     <li><a href="{% url 'sponsors' %}">{% trans "Partners" %}</a></li>
+                    <li><a href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a></li>
                 </ul>
             </div>
             <div>

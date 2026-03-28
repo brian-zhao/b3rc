@@ -39,55 +39,85 @@ def sponsors(request):
 
 
 def leaderboard(request):
-    """Club leaderboard — full data for Strava-authenticated users."""
+    """Club leaderboard — requires Strava login."""
     from . import strava_service
+    from datetime import datetime, timezone
 
     context = {
         'club_info': None,
-        'activities': [],
-        'leaderboard': [],
+        'this_week': [],
+        'last_week': [],
+        'recent_activities': [],
         'strava_connected': False,
-        'strava_linked': False,
+        'tracking_started_at': None,
+        'tracking_days': 0,
     }
 
-    if request.user.is_authenticated:
-        # User is logged in (via any provider)
-        access_token = _get_strava_token(request.user)
-        if access_token:
-            # Strava is linked — show full leaderboard
-            context['strava_connected'] = True
-            context['strava_linked'] = True
-            context['club_info'] = strava_service.get_club_info(access_token)
-            context['activities'] = strava_service.get_club_activities(
-                access_token
-            )
-            context['leaderboard'] = strava_service.build_leaderboard(
-                access_token
-            )
-        else:
-            # Logged in via Google/Facebook/Apple but no Strava
-            context['strava_connected'] = True  # show logged-in UI
-            context['strava_linked'] = False     # prompt to link Strava
+    if not request.user.is_authenticated:
+        return render(request, 'leaderboard.html', context)
+
+    access_token = _get_strava_token(request.user)
+    if not access_token:
+        return render(request, 'leaderboard.html', context)
+
+    context['strava_connected'] = True
+    context['club_info'] = strava_service.get_club_info(access_token)
+
+    # Current user's display name in leaderboard (e.g. "Brian Z.")
+    try:
+        from allauth.socialaccount.models import SocialAccount
+        strava_account = SocialAccount.objects.get(user=request.user, provider='strava')
+        extra = strava_account.extra_data
+        firstname = extra.get('firstname', '')
+        lastname = extra.get('lastname', '')
+        lastname_initial = (lastname[0] + '.') if lastname else ''
+        context['current_user_name'] = f'{firstname} {lastname_initial}'.strip()
+    except Exception:
+        context['current_user_name'] = ''
+
+    # Accumulate new activities into Firestore log
+    strava_service.accumulate_club_activities(access_token)
+
+    # Weekly leaderboards from Firestore log
+    context['this_week'] = strava_service.build_weekly_leaderboard(week_offset=0)
+    context['last_week'] = strava_service.build_weekly_leaderboard(week_offset=1)
+
+    # How long we've been tracking (affects whether weekly data is meaningful)
+    started = strava_service.get_tracking_started_at()
+    if started:
+        context['tracking_started_at'] = started
+        context['tracking_days'] = (datetime.now(timezone.utc) - started).days
 
     return render(request, 'leaderboard.html', context)
 
 
 def _get_strava_token(user):
-    """Get valid Strava access token for the user, refreshing if needed."""
+    """Get valid Strava access token for the user, refreshing if needed.
+    Falls back to any stored Strava token since club data is member-agnostic.
+    """
     if not user.is_authenticated:
         return None
 
     try:
-        from allauth.socialaccount.models import SocialToken, SocialApp
+        from allauth.socialaccount.models import SocialToken, SocialAccount
+        from django.utils import timezone as tz
+
+        # Check if this user has a linked Strava account
+        has_strava = SocialAccount.objects.filter(user=user, provider='strava').exists()
+        if not has_strava:
+            return None
+
+        # Try user's own token first, fall back to any stored Strava token
         token = SocialToken.objects.filter(
             account__user=user,
             account__provider='strava',
+        ).first() or SocialToken.objects.filter(
+            account__provider='strava',
         ).first()
+
         if not token:
             return None
 
-        # Refresh if expired
-        from django.utils import timezone as tz
         if token.expires_at and token.expires_at <= tz.now():
             return _refresh_strava_token(token)
 
