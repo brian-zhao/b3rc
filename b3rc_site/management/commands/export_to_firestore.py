@@ -31,3 +31,10 @@ class Command(BaseCommand):
         self.stdout.write(f'Exported {count} CarouselImage record(s)')
 
         self.stdout.write(self.style.SUCCESS('Done! Verify data in Firestore console.'))
+
+        from b3rc_site.models import Post
+        count = 0
+        for post in Post.objects.all():
+            firestore_service.save_post(post)
+            count += 1
+        self.stdout.write(f'Exported {count} Post record(s)')

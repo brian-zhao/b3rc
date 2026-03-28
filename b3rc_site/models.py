@@ -1,6 +1,30 @@
+import re
 from decimal import Decimal
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
+
+
+class Announcement(models.Model):
+    message    = models.CharField(max_length=500)
+    link_url   = models.CharField(max_length=500, blank=True, help_text='Internal path (e.g. /en/blog/slug/) or full external URL')
+    link_label = models.CharField(max_length=100, blank=True, default='Read more')
+    valid_from = models.DateTimeField()
+    valid_to   = models.DateTimeField()
+    is_active  = models.BooleanField(default=True)
+    bg_color   = models.CharField(max_length=7, default='#0B3C56', help_text='Hex colour, e.g. #0B3C56')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-valid_from']
+
+    def __str__(self):
+        return f'{self.message[:60]} ({self.valid_from:%Y-%m-%d} → {self.valid_to:%Y-%m-%d})'
+
+    @classmethod
+    def get_active(cls):
+        now = timezone.now()
+        return cls.objects.filter(is_active=True, valid_from__lte=now, valid_to__gte=now).first()
 
 
 class SiteMedia(models.Model):
@@ -39,6 +63,74 @@ class CarouselImage(models.Model):
 
     def __str__(self):
         return f'Carousel #{self.order} — {self.alt_text or self.image.name}'
+
+
+# ── Blog Models ──────────────────────────────────────────────────────────────
+
+class Post(models.Model):
+    CATEGORY_CHOICES = [
+        ('EVENT',    'Club Event'),
+        ('PARKRUN',  'Parkrun'),
+        ('RACE',     'Race Recap'),
+        ('TRAINING', 'Training Report'),
+        ('NEWS',     'Club News'),
+    ]
+    STATUS_CHOICES = [
+        ('DRAFT',     'Draft'),
+        ('PUBLISHED', 'Published'),
+    ]
+
+    title          = models.CharField(max_length=200)
+    slug           = models.SlugField(max_length=220, unique=True)
+    category       = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='EVENT')
+    status         = models.CharField(max_length=20, choices=STATUS_CHOICES, default='DRAFT')
+    body           = models.TextField(help_text='Markdown supported')
+    featured_image = models.ImageField(upload_to='blog/', blank=True)
+    video_url      = models.URLField(blank=True, help_text='YouTube or Vimeo URL')
+    event_date     = models.DateField(null=True, blank=True, help_text='Date the event took place')
+    location       = models.CharField(max_length=200, blank=True)
+    strava_url     = models.URLField(blank=True, help_text='Link to Strava activity or club event')
+    is_featured    = models.BooleanField(default=False, help_text='Pin to top of blog list')
+    author         = models.ForeignKey('auth.User', null=True, blank=True, on_delete=models.SET_NULL)
+    created_at     = models.DateTimeField(auto_now_add=True)
+    updated_at     = models.DateTimeField(auto_now=True)
+    published_at   = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['-published_at', '-created_at']
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def excerpt(self):
+        """First 160 chars of body, stripped of markdown."""
+        plain = re.sub(r'[#*_`>\[\]!]', '', self.body)
+        plain = re.sub(r'\s+', ' ', plain).strip()
+        return plain[:160] + ('…' if len(plain) > 160 else '')
+
+    @property
+    def first_image_url(self):
+        """Return featured_image URL, or the first inline image URL from the markdown body."""
+        if self.featured_image:
+            return self.featured_image.url
+        m = re.search(r'!\[.*?\]\((https?://[^)]+)\)', self.body)
+        return m.group(1) if m else ''
+
+    @property
+    def video_embed_url(self):
+        """Convert YouTube/Vimeo watch URL to embed URL."""
+        if not self.video_url:
+            return ''
+        # YouTube: watch?v=ID or youtu.be/ID
+        yt = re.search(r'(?:youtube\.com/watch\?v=|youtu\.be/)([\w-]+)', self.video_url)
+        if yt:
+            return f'https://www.youtube.com/embed/{yt.group(1)}'
+        # Vimeo: vimeo.com/ID
+        vm = re.search(r'vimeo\.com/(\d+)', self.video_url)
+        if vm:
+            return f'https://player.vimeo.com/video/{vm.group(1)}'
+        return ''
 
 
 # ── Shop Models ──────────────────────────────────────────────────────────────
@@ -170,6 +262,31 @@ class Order(models.Model):
         today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
         count = Order.objects.filter(created_at__gte=today_start).count() + 1
         return f'B3RC-{date_part}-{count:04d}'
+
+
+class PostComment(models.Model):
+    post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField(max_length=1000)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_at']
+
+    def __str__(self):
+        return f'{self.user.get_full_name() or self.user.email} on "{self.post.title}"'
+
+
+class PostLike(models.Model):
+    post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='likes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('post', 'user')
+
+    def __str__(self):
+        return f'{self.user.get_full_name() or self.user.email} likes "{self.post.title}"'
 
 
 class OrderItem(models.Model):

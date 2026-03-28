@@ -10,7 +10,9 @@ from decimal import Decimal
 
 from b3rc_site import firestore_service, signals
 from b3rc_site.models import (
+    Announcement,
     SiteMedia, CarouselImage,
+    Post, PostComment, PostLike,
     Product, ProductImage, ProductVariant, Order, OrderItem,
 )
 
@@ -22,6 +24,10 @@ class Command(BaseCommand):
         # Disable Firestore write-back signals during import
         signals._syncing = True
         try:
+            self._sync_announcements()
+            self._sync_posts()
+            self._sync_post_comments()
+            self._sync_post_likes()
             self._sync_site_media()
             self._sync_carousel_images()
             self._sync_products()
@@ -31,6 +37,32 @@ class Command(BaseCommand):
             self._sync_order_items()
         finally:
             signals._syncing = False
+
+    def _sync_announcements(self):
+        from django.utils.dateparse import parse_datetime
+        docs = firestore_service.list_announcements()
+        count = 0
+        for doc in docs:
+            valid_from = doc.get('valid_from')
+            if isinstance(valid_from, str):
+                valid_from = parse_datetime(valid_from)
+            valid_to = doc.get('valid_to')
+            if isinstance(valid_to, str):
+                valid_to = parse_datetime(valid_to)
+            Announcement.objects.update_or_create(
+                pk=doc['pk'],
+                defaults={
+                    'message':    doc.get('message', ''),
+                    'link_url':   doc.get('link_url', ''),
+                    'link_label': doc.get('link_label', 'Read more'),
+                    'valid_from': valid_from,
+                    'valid_to':   valid_to,
+                    'is_active':  doc.get('is_active', True),
+                    'bg_color':   doc.get('bg_color', '#0B3C56'),
+                },
+            )
+            count += 1
+        self.stdout.write(f'Synced {count} Announcement record(s) from Firestore')
 
     def _sync_site_media(self):
         docs = firestore_service.list_site_media()
@@ -195,3 +227,86 @@ class Command(BaseCommand):
             )
             count += 1
         self.stdout.write(f'Synced {count} OrderItem record(s) from Firestore')
+
+    def _sync_posts(self):
+        from datetime import date
+        from django.contrib.auth.models import User
+        docs = firestore_service.list_posts()
+        count = 0
+        for doc in docs:
+            author = None
+            author_id = doc.get('author_id')
+            if author_id:
+                author = User.objects.filter(pk=author_id).first()
+            published_at = doc.get('published_at')
+            if isinstance(published_at, str):
+                published_at = parse_datetime(published_at)
+            created_at = doc.get('created_at')
+            if isinstance(created_at, str):
+                created_at = parse_datetime(created_at)
+            updated_at = doc.get('updated_at')
+            if isinstance(updated_at, str):
+                updated_at = parse_datetime(updated_at)
+            event_date = doc.get('event_date')
+            if isinstance(event_date, str) and event_date:
+                event_date = date.fromisoformat(event_date)
+            Post.objects.update_or_create(
+                slug=doc['slug'],
+                defaults={
+                    'title': doc.get('title', ''),
+                    'category': doc.get('category', 'EVENT'),
+                    'status': doc.get('status', 'DRAFT'),
+                    'body': doc.get('body', ''),
+                    'featured_image': doc.get('featured_image', ''),
+                    'video_url': doc.get('video_url', ''),
+                    'event_date': event_date,
+                    'location': doc.get('location', ''),
+                    'strava_url': doc.get('strava_url', ''),
+                    'is_featured': doc.get('is_featured', False),
+                    'author': author,
+                    'published_at': published_at,
+                },
+            )
+            count += 1
+        self.stdout.write(f'Synced {count} Post record(s) from Firestore')
+
+    def _sync_post_comments(self):
+        from django.contrib.auth.models import User
+        from django.utils.dateparse import parse_datetime
+        docs = firestore_service.list_comments()
+        count = 0
+        for doc in docs:
+            try:
+                post = Post.objects.get(slug=doc['post_slug'])
+            except Post.DoesNotExist:
+                continue
+            user = User.objects.filter(pk=doc.get('user_id')).first()
+            if not user:
+                continue
+            created_at = doc.get('created_at')
+            if isinstance(created_at, str):
+                created_at = parse_datetime(created_at)
+            PostComment.objects.update_or_create(
+                pk=doc['pk'],
+                defaults={'post': post, 'user': user, 'body': doc.get('body', '')},
+            )
+            if created_at:
+                PostComment.objects.filter(pk=doc['pk']).update(created_at=created_at)
+            count += 1
+        self.stdout.write(f'Synced {count} PostComment record(s) from Firestore')
+
+    def _sync_post_likes(self):
+        from django.contrib.auth.models import User
+        docs = firestore_service.list_likes()
+        count = 0
+        for doc in docs:
+            try:
+                post = Post.objects.get(slug=doc['post_slug'])
+            except Post.DoesNotExist:
+                continue
+            user = User.objects.filter(pk=doc.get('user_id')).first()
+            if not user:
+                continue
+            PostLike.objects.get_or_create(pk=doc['pk'], defaults={'post': post, 'user': user})
+            count += 1
+        self.stdout.write(f'Synced {count} PostLike record(s) from Firestore')

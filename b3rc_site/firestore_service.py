@@ -198,3 +198,108 @@ def delete_order_item(pk):
 def list_order_items():
     db = get_client()
     return [doc.to_dict() for doc in db.collection('order_items').stream()]
+
+
+# ── Post ──
+
+def save_post(instance):
+    db = get_client()
+    db.collection('posts').document(instance.slug).set({
+        'slug': instance.slug,
+        'title': instance.title,
+        'category': instance.category,
+        'status': instance.status,
+        'body': instance.body,
+        'featured_image': instance.featured_image.name if instance.featured_image else '',
+        'video_url': instance.video_url,
+        'event_date': instance.event_date.isoformat() if instance.event_date and hasattr(instance.event_date, 'isoformat') else (instance.event_date if instance.event_date else None),
+        'location': instance.location,
+        'strava_url': instance.strava_url,
+        'is_featured': instance.is_featured,
+        'author_id': instance.author_id,
+        'published_at': instance.published_at,
+        'created_at': instance.created_at,
+        'updated_at': instance.updated_at,
+    })
+
+
+def delete_post(slug):
+    db = get_client()
+    db.collection('posts').document(slug).delete()
+
+
+def list_posts():
+    db = get_client()
+    return [doc.to_dict() for doc in db.collection('posts').stream()]
+
+
+# ── PostComment ──
+
+def save_comment(instance):
+    db = get_client()
+    db.collection('post_comments').document(str(instance.pk)).set({
+        'pk': instance.pk,
+        'post_slug': instance.post.slug,
+        'user_id': instance.user_id,
+        'body': instance.body,
+        'created_at': instance.created_at,
+    })
+
+
+def delete_comment(pk):
+    db = get_client()
+    db.collection('post_comments').document(str(pk)).delete()
+
+
+def list_comments():
+    db = get_client()
+    return [doc.to_dict() for doc in db.collection('post_comments').stream()]
+
+
+# ── PostLike ──
+
+def save_like(instance):
+    db = get_client()
+    db.collection('post_likes').document(str(instance.pk)).set({
+        'pk': instance.pk,
+        'post_slug': instance.post.slug,
+        'user_id': instance.user_id,
+        'created_at': instance.created_at,
+    })
+
+
+def delete_like(pk):
+    db = get_client()
+    db.collection('post_likes').document(str(pk)).delete()
+
+
+def list_likes():
+    db = get_client()
+    return [doc.to_dict() for doc in db.collection('post_likes').stream()]
+
+
+# ── Announcement ──
+
+def save_announcement(instance):
+    db = get_client()
+    db.collection('announcements').document(str(instance.pk)).set({
+        'pk':         instance.pk,
+        'message':    instance.message,
+        'link_url':   instance.link_url,
+        'link_label': instance.link_label,
+        'valid_from': instance.valid_from,
+        'valid_to':   instance.valid_to,
+        'is_active':  instance.is_active,
+        'bg_color':   instance.bg_color,
+        'created_at': instance.created_at,
+    })
+
+
+def delete_announcement(pk):
+    db = get_client()
+    db.collection('announcements').document(str(pk)).delete()
+
+
+def list_announcements():
+    db = get_client()
+    return [doc.to_dict() for doc in db.collection('announcements').stream()]

@@ -78,6 +78,34 @@
     {% endblock %}
 </head>
 <body>
+
+    {% if active_announcement %}
+    <div class="announcement-bar" style="--ann-bg: {{ active_announcement.bg_color }};">
+        <div class="announcement-track">
+            <span class="announcement-text">
+                {{ active_announcement.message }}
+                {% if active_announcement.link_url %}
+                <a href="{{ active_announcement.link_url }}" class="announcement-link"
+                   {% if active_announcement.link_url|slice:":4" == "http" %}target="_blank" rel="noopener"{% endif %}>
+                    {{ active_announcement.link_label|default:"Read more" }} &rarr;
+                </a>
+                {% endif %}
+            </span>
+            {# Duplicate for seamless loop #}
+            <span class="announcement-text" aria-hidden="true">
+                {{ active_announcement.message }}
+                {% if active_announcement.link_url %}
+                <a href="{{ active_announcement.link_url }}" class="announcement-link"
+                   {% if active_announcement.link_url|slice:":4" == "http" %}target="_blank" rel="noopener"{% endif %}>
+                    {{ active_announcement.link_label|default:"Read more" }} &rarr;
+                </a>
+                {% endif %}
+            </span>
+        </div>
+        <button class="announcement-close" aria-label="Dismiss" onclick="this.closest('.announcement-bar').style.display='none'">&#10005;</button>
+    </div>
+    {% endif %}
+
     <header class="navbar">
         <div class="nav-container">
             <a href="{% url 'home' %}" class="nav-logo">B3RC</a>
@@ -91,6 +119,7 @@
                         <li><a href="{% url 'find_us' %}">{% trans "Contact" %}</a></li>
                         <li><a href="{% url 'sponsors' %}">{% trans "Partners" %}</a></li>
                         <li><a href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a></li>
+                        <li><a href="{% url 'blog' %}">{% trans "Blog" %}</a></li>
                     </ul>
                 </nav>
                 <div class="nav-account">
@@ -143,6 +172,7 @@
         <a href="{% url 'find_us' %}">{% trans "Contact" %}</a>
         <a href="{% url 'sponsors' %}">{% trans "Partners" %}</a>
         <a href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a>
+        <a href="{% url 'blog' %}">{% trans "Blog" %}</a>
         {% if user.is_authenticated %}
         <a href="{% url 'account' %}">{% trans "My Account" %}</a>
         <a href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
@@ -167,6 +197,7 @@
                     <li><a href="{% url 'activities' %}">{% trans "Programs" %}</a></li>
                     <li><a href="{% url 'sponsors' %}">{% trans "Partners" %}</a></li>
                     <li><a href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a></li>
+                    <li><a href="{% url 'blog' %}">{% trans "Blog" %}</a></li>
                 </ul>
             </div>
             <div>

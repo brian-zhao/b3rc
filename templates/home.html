@@ -142,6 +142,41 @@
         </div>
     </section>
 
+    <!-- Blog / News Preview -->
+    {% if recent_posts %}
+    <div class="section-alt">
+        <section class="section" id="news">
+            <p class="section-eyebrow">{% trans "Latest News" %}</p>
+            <h2 class="section-title">{% trans "From the Blog" %}</h2>
+            <p class="section-intro">{% trans "Race recaps, parkrun reports, training updates and club news." %}</p>
+
+            <div class="home-blog-grid">
+                {% for post in recent_posts %}
+                <a href="{% url 'blog_detail' post.slug %}" class="home-blog-card">
+                    {% if post.featured_image %}
+                    <div class="home-blog-card-img" style="background-image:url('{{ post.featured_image.url }}')"></div>
+                    {% else %}
+                    <div class="home-blog-card-img home-blog-card-placeholder"></div>
+                    {% endif %}
+                    <div class="home-blog-card-body">
+                        <span class="blog-category-pill cat-{{ post.category|lower }}">{{ post.get_category_display }}</span>
+                        <h3 class="home-blog-card-title">{{ post.title }}</h3>
+                        <p class="home-blog-card-excerpt">{{ post.excerpt }}</p>
+                        <span class="home-blog-card-date">
+                            {% if post.event_date %}{{ post.event_date|date:"d M Y" }}{% else %}{{ post.published_at|date:"d M Y" }}{% endif %}
+                        </span>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+
+            <div class="home-blog-cta">
+                <a href="{% url 'blog' %}" class="btn-primary">{% trans "View all posts" %} &rarr;</a>
+            </div>
+        </section>
+    </div>
+    {% endif %}
+
     <!-- CTA Banner -->
     <section class="cta-banner">
         <h2>{% trans "Ready to Join B3RC?" %}</h2>

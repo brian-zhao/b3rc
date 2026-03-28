@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Blog — B3RC{% endblock %}
+{% block meta_description %}Club events, parkrun reports, race recaps and training updates from B3RC — Breaking 3 Running Club, Sydney.{% endblock %}
+
+{% block content %}
+<div class="page-content">
+<div class="container blog-container">
+
+    <div class="blog-header">
+        <p class="section-eyebrow">{% trans "News & Events" %}</p>
+        <h1 class="section-title">{% trans "B3RC Blog" %}</h1>
+    </div>
+
+    <!-- Category tabs -->
+    <div class="blog-tabs">
+        <a href="{% url 'blog' %}" class="blog-tab {% if not current_category %}active{% endif %}">{% trans "All" %}</a>
+        {% for val, label in category_choices %}
+        <a href="{% url 'blog' %}?category={{ val }}" class="blog-tab {% if current_category == val %}active{% endif %}">{{ label }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="blog-layout">
+
+        <!-- Post list -->
+        <div class="blog-posts">
+            {% if posts %}
+                {% for post in posts %}
+                {% if post.is_featured and forloop.first and not current_category and not current_date %}
+                <!-- Featured hero post -->
+                <a href="{% url 'blog_detail' post.slug %}" class="blog-featured-card">
+                    {% if post.video_embed_url %}
+                    <div class="blog-featured-img blog-featured-video">
+                        <iframe src="{{ post.video_embed_url }}" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    {% elif post.featured_image %}
+                    <div class="blog-featured-img" style="background-image:url('{{ post.featured_image.url }}')"></div>
+                    {% else %}
+                    <div class="blog-featured-img blog-featured-placeholder"></div>
+                    {% endif %}
+                    <div class="blog-featured-body">
+                        <div class="blog-meta">
+                            <span class="blog-category-pill cat-{{ post.category|lower }}">{{ post.get_category_display }}</span>
+                            {% if post.event_date %}<span class="blog-date">{{ post.event_date|date:"d M Y" }}</span>{% endif %}
+                            {% if post.location %}<span class="blog-location">{{ post.location }}</span>{% endif %}
+                        </div>
+                        <h2 class="blog-featured-title">{{ post.title }}</h2>
+                        <p class="blog-excerpt">{{ post.excerpt }}</p>
+                        <span class="blog-read-more">{% trans "Read more" %} &rarr;</span>
+                    </div>
+                </a>
+                {% else %}
+                <!-- Regular post card -->
+                <a href="{% url 'blog_detail' post.slug %}" class="blog-card">
+                    {% if post.video_embed_url %}
+                    <div class="blog-card-img blog-card-video-thumb">
+                        <svg viewBox="0 0 24 24" fill="white" width="32" height="32"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    {% elif post.featured_image %}
+                    <div class="blog-card-img" style="background-image:url('{{ post.featured_image.url }}')"></div>
+                    {% else %}
+                    <div class="blog-card-img blog-card-placeholder"></div>
+                    {% endif %}
+                    <div class="blog-card-body">
+                        <div class="blog-meta">
+                            <span class="blog-category-pill cat-{{ post.category|lower }}">{{ post.get_category_display }}</span>
+                            {% if post.event_date %}<span class="blog-date">{{ post.event_date|date:"d M Y" }}</span>{% endif %}
+                        </div>
+                        <h2 class="blog-card-title">{{ post.title }}</h2>
+                        {% if post.location %}<p class="blog-card-location">{{ post.location }}</p>{% endif %}
+                        <p class="blog-excerpt">{{ post.excerpt }}</p>
+                    </div>
+                </a>
+                {% endif %}
+                {% endfor %}
+
+                <!-- Pagination -->
+                {% if total_pages > 1 %}
+                <div class="blog-pagination">
+                    {% if has_prev %}<a href="?{% if current_category %}category={{ current_category }}&{% endif %}page={{ page|add:"-1" }}" class="blog-page-btn">&larr; {% trans "Newer" %}</a>{% endif %}
+                    <span class="blog-page-info">{{ page }} / {{ total_pages }}</span>
+                    {% if has_next %}<a href="?{% if current_category %}category={{ current_category }}&{% endif %}page={{ page|add:"1" }}" class="blog-page-btn">{% trans "Older" %} &rarr;</a>{% endif %}
+                </div>
+                {% endif %}
+
+            {% else %}
+            <div class="blog-empty">
+                <p>{% trans "No posts yet. Check back soon." %}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="blog-sidebar">
+
+            <!-- Calendar -->
+            <div class="sidebar-widget">
+                <h3 class="sidebar-title">{% trans "Event Calendar" %}</h3>
+                <div id="blog-calendar"></div>
+            </div>
+
+            <!-- Recent posts -->
+            {% if recent_posts %}
+            <div class="sidebar-widget">
+                <h3 class="sidebar-title">{% trans "Recent Posts" %}</h3>
+                <ul class="sidebar-recent">
+                    {% for p in recent_posts %}
+                    <li><a href="{% url 'blog_detail' p.slug %}">{{ p.title }}</a>
+                        {% if p.event_date %}<span>{{ p.event_date|date:"d M Y" }}</span>{% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <!-- Category counts -->
+            <div class="sidebar-widget">
+                <h3 class="sidebar-title">{% trans "Categories" %}</h3>
+                <ul class="sidebar-cats">
+                    {% for val, label, count in categories_with_counts %}
+                    <li>
+                        <a href="{% url 'blog' %}?category={{ val }}" class="{% if current_category == val %}active{% endif %}">
+                            {{ label }}
+                            <span>{{ count }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </aside>
+    </div>
+
+</div>
+</div>
+
+<script>
+(function() {
+    var eventDates = {{ event_dates_json|safe }};
+    var dateSet = new Set(eventDates);
+    var today = new Date();
+    var current = { year: today.getFullYear(), month: today.getMonth() };
+
+    function buildCalendar(year, month) {
+        var monthNames = ['January','February','March','April','May','June',
+                          'July','August','September','October','November','December'];
+        var dayNames   = ['Mo','Tu','We','Th','Fr','Sa','Su'];
+        var first = new Date(year, month, 1).getDay(); // 0=Sun
+        first = (first + 6) % 7; // shift so Mon=0
+        var days = new Date(year, month + 1, 0).getDate();
+
+        var html = '<div class="cal-header">'
+            + '<button class="cal-nav" id="cal-prev">&lsaquo;</button>'
+            + '<span class="cal-month">' + monthNames[month] + ' ' + year + '</span>'
+            + '<button class="cal-nav" id="cal-next">&rsaquo;</button>'
+            + '</div><table class="cal-table"><thead><tr>';
+        dayNames.forEach(function(d) { html += '<th>' + d + '</th>'; });
+        html += '</tr></thead><tbody><tr>';
+
+        for (var i = 0; i < first; i++) html += '<td></td>';
+        var col = first;
+        for (var d = 1; d <= days; d++) {
+            var pad   = (month + 1 < 10 ? '0' : '') + (month + 1);
+            var dpad  = (d < 10 ? '0' : '') + d;
+            var iso   = year + '-' + pad + '-' + dpad;
+            var isToday = (year === today.getFullYear() && month === today.getMonth() && d === today.getDate());
+            var hasEvent = dateSet.has(iso);
+            var cls = '';
+            if (isToday) cls += ' cal-today';
+            if (hasEvent) cls += ' cal-event';
+            if (hasEvent) {
+                html += '<td class="' + cls.trim() + '"><a href="?date=' + iso + '">' + d + '</a></td>';
+            } else {
+                html += '<td class="' + cls.trim() + '">' + d + '</td>';
+            }
+            col++;
+            if (col === 7 && d < days) { html += '</tr><tr>'; col = 0; }
+        }
+        while (col > 0 && col < 7) { html += '<td></td>'; col++; }
+        html += '</tr></tbody></table>';
+
+        var el = document.getElementById('blog-calendar');
+        el.innerHTML = html;
+        document.getElementById('cal-prev').addEventListener('click', function() {
+            current.month--; if (current.month < 0) { current.month = 11; current.year--; }
+            buildCalendar(current.year, current.month);
+        });
+        document.getElementById('cal-next').addEventListener('click', function() {
+            current.month++; if (current.month > 11) { current.month = 0; current.year++; }
+            buildCalendar(current.year, current.month);
+        });
+    }
+
+    buildCalendar(current.year, current.month);
+})();
+</script>
+{% endblock %}

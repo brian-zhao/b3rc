@@ -1,4 +1,4 @@
-from .models import SiteMedia, CarouselImage
+from .models import SiteMedia, CarouselImage, Announcement
 
 
 def site_media(request):
@@ -6,4 +6,5 @@ def site_media(request):
     return {
         'site_media': {item.slot: item for item in media_items},
         'carousel_images': CarouselImage.objects.all(),
+        'active_announcement': Announcement.get_active(),
     }

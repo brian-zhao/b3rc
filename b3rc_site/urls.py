@@ -5,10 +5,11 @@ from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
 from django.conf.urls.i18n import i18n_patterns
 from . import views
-from .sitemaps import StaticViewSitemap
+from .sitemaps import StaticViewSitemap, BlogPostSitemap
 
 sitemaps = {
     'static': StaticViewSitemap,
+    'blog':   BlogPostSitemap,
 }
 
 urlpatterns = [
@@ -28,6 +29,10 @@ urlpatterns += i18n_patterns(
     path('find-us/', views.find_us, name='find_us'),
     path('sponsors/', views.sponsors, name='sponsors'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
+    path('blog/', views.blog_list, name='blog'),
+    path('blog/<slug:slug>/', views.blog_detail, name='blog_detail'),
+    path('blog/<slug:slug>/comment/', views.blog_comment_add, name='blog_comment_add'),
+    path('blog/<slug:slug>/like/', views.blog_like_toggle, name='blog_like_toggle'),
     # Account
     path('account/', views.account, name='account'),
     # Shop

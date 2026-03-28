@@ -13,13 +13,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 
-from .models import Product, ProductVariant, Order, OrderItem
+from .models import Post, PostComment, PostLike, Product, ProductVariant, Order, OrderItem
 
 logger = logging.getLogger(__name__)
 
 
 def home(request):
-    return render(request, 'home.html')
+    recent_posts = Post.objects.filter(status='PUBLISHED').order_by('-published_at')[:3]
+    return render(request, 'home.html', {'recent_posts': recent_posts})
 
 
 def about(request):
@@ -155,6 +156,118 @@ def _refresh_strava_token(token):
     except Exception:
         logger.exception('Failed to refresh Strava token')
         return None
+
+
+# ── Blog Views ───────────────────────────────────────────────────────────────
+
+def blog_list(request):
+    import json as _json
+    from datetime import date
+
+    category   = request.GET.get('category', '').upper()
+    date_str   = request.GET.get('date', '')
+    page_num   = int(request.GET.get('page', 1))
+
+    posts = Post.objects.filter(status='PUBLISHED').order_by('-is_featured', '-published_at')
+
+    if category and category in dict(Post.CATEGORY_CHOICES):
+        posts = posts.filter(category=category)
+
+    if date_str:
+        try:
+            filter_date = date.fromisoformat(date_str)
+            posts = posts.filter(event_date=filter_date)
+        except ValueError:
+            pass
+
+    # Pagination
+    per_page   = 10
+    total      = posts.count()
+    total_pages = max(1, (total + per_page - 1) // per_page)
+    page_num   = max(1, min(page_num, total_pages))
+    offset     = (page_num - 1) * per_page
+    page_posts = posts[offset: offset + per_page]
+
+    # Calendar: all published event_dates for JS highlighting
+    all_event_dates = list(
+        Post.objects.filter(status='PUBLISHED')
+        .exclude(event_date=None)
+        .values_list('event_date', flat=True)
+    )
+    event_dates_json = _json.dumps([d.isoformat() for d in all_event_dates])
+
+    # Sidebar: recent posts & category counts as (val, label, count) tuples
+    recent_posts = Post.objects.filter(status='PUBLISHED').order_by('-published_at')[:5]
+    categories_with_counts = [
+        (val, label, Post.objects.filter(status='PUBLISHED', category=val).count())
+        for val, label in Post.CATEGORY_CHOICES
+    ]
+
+    return render(request, 'blog/list.html', {
+        'posts':                  page_posts,
+        'category_choices':       Post.CATEGORY_CHOICES,
+        'categories_with_counts': categories_with_counts,
+        'current_category':       category,
+        'current_date':           date_str,
+        'page':                   page_num,
+        'total_pages':            total_pages,
+        'has_prev':               page_num > 1,
+        'has_next':               page_num < total_pages,
+        'event_dates_json':       event_dates_json,
+        'recent_posts':           recent_posts,
+    })
+
+
+def blog_detail(request, slug):
+    import markdown as md
+    post = get_object_or_404(Post, slug=slug, status='PUBLISHED')
+    body_html = md.markdown(post.body, extensions=['extra', 'nl2br'])
+
+    prev_post = Post.objects.filter(
+        status='PUBLISHED', published_at__lt=post.published_at
+    ).order_by('-published_at').first()
+    next_post = Post.objects.filter(
+        status='PUBLISHED', published_at__gt=post.published_at
+    ).order_by('published_at').first()
+
+    comments = post.comments.select_related('user').all()
+    like_count = post.likes.count()
+    user_liked = (
+        request.user.is_authenticated and
+        post.likes.filter(user=request.user).exists()
+    )
+
+    return render(request, 'blog/detail.html', {
+        'post':       post,
+        'body_html':  body_html,
+        'prev_post':  prev_post,
+        'next_post':  next_post,
+        'comments':   comments,
+        'like_count': like_count,
+        'user_liked': user_liked,
+    })
+
+
+@login_required
+@require_POST
+def blog_comment_add(request, slug):
+    post = get_object_or_404(Post, slug=slug, status='PUBLISHED')
+    body = request.POST.get('body', '').strip()
+    if body:
+        PostComment.objects.create(post=post, user=request.user, body=body[:1000])
+    return redirect('blog_detail', slug=slug)
+
+
+@login_required
+@require_POST
+def blog_like_toggle(request, slug):
+    post = get_object_or_404(Post, slug=slug, status='PUBLISHED')
+    like = PostLike.objects.filter(post=post, user=request.user).first()
+    if like:
+        like.delete()
+    else:
+        PostLike.objects.create(post=post, user=request.user)
+    return redirect('blog_detail', slug=slug)
 
 
 # ── Shop Views ───────────────────────────────────────────────────────────────

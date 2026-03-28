@@ -14,6 +14,28 @@ logger = logging.getLogger(__name__)
 _syncing = False
 
 
+@receiver(post_save, sender='b3rc_site.Announcement')
+def announcement_saved(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.save_announcement(instance)
+    except Exception:
+        logger.exception('Failed to sync Announcement to Firestore')
+
+
+@receiver(post_delete, sender='b3rc_site.Announcement')
+def announcement_deleted(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.delete_announcement(instance.pk)
+    except Exception:
+        logger.exception('Failed to delete Announcement from Firestore')
+
+
 @receiver(post_save, sender='b3rc_site.SiteMedia')
 def site_media_saved(sender, instance, **kwargs):
     if _syncing:
@@ -56,6 +78,76 @@ def carousel_image_deleted(sender, instance, **kwargs):
         firestore_service.delete_carousel_image(instance.pk)
     except Exception:
         logger.exception('Failed to delete CarouselImage from Firestore')
+
+
+# ── Blog signals ─────────────────────────────────────────────────────────────
+
+@receiver(post_save, sender='b3rc_site.Post')
+def post_saved(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.save_post(instance)
+    except Exception:
+        logger.exception('Failed to sync Post to Firestore')
+
+
+@receiver(post_delete, sender='b3rc_site.Post')
+def post_deleted(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.delete_post(instance.slug)
+    except Exception:
+        logger.exception('Failed to delete Post from Firestore')
+
+
+# ── Comment / Like signals ───────────────────────────────────────────────────
+
+@receiver(post_save, sender='b3rc_site.PostComment')
+def comment_saved(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.save_comment(instance)
+    except Exception:
+        logger.exception('Failed to sync PostComment to Firestore')
+
+
+@receiver(post_delete, sender='b3rc_site.PostComment')
+def comment_deleted(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.delete_comment(instance.pk)
+    except Exception:
+        logger.exception('Failed to delete PostComment from Firestore')
+
+
+@receiver(post_save, sender='b3rc_site.PostLike')
+def like_saved(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.save_like(instance)
+    except Exception:
+        logger.exception('Failed to sync PostLike to Firestore')
+
+
+@receiver(post_delete, sender='b3rc_site.PostLike')
+def like_deleted(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.delete_like(instance.pk)
+    except Exception:
+        logger.exception('Failed to delete PostLike from Firestore')
 
 
 # ── Shop signals ─────────────────────────────────────────────────────────────
