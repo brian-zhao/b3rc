@@ -99,7 +99,7 @@
                     {% if strava_account %}
                     <span class="connected-badge">{% trans "Connected" %}</span>
                     {% else %}
-                    <a href="{% provider_login_url 'strava' %}" class="connect-link">{% trans "Connect" %}</a>
+                    <a href="/accounts/strava/login/?next=/en/account/" class="connect-link">{% trans "Connect" %}</a>
                     {% endif %}
                 </div>
 
@@ -120,7 +120,7 @@
                     {% if google_account %}
                     <span class="connected-badge">{% trans "Connected" %}</span>
                     {% else %}
-                    <a href="{% provider_login_url 'google' %}" class="connect-link">{% trans "Connect" %}</a>
+                    <a href="/accounts/google/login/?next=/en/account/" class="connect-link">{% trans "Connect" %}</a>
                     {% endif %}
                 </div>
 
