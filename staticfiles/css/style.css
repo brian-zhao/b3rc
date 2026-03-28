@@ -2926,6 +2926,23 @@ body:has(.announcement-bar) main {
     color: #6b6b6b;
 }
 
+/* ── Sidebar RSS link ── */
+.sidebar-rss-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #f26522;
+    text-decoration: none;
+    margin-bottom: 16px;
+    transition: opacity 0.15s;
+}
+
+.sidebar-rss-link:hover { opacity: 0.75; }
+
 /* ── Sidebar ── */
 .blog-sidebar {
     position: sticky;

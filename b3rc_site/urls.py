@@ -5,6 +5,7 @@ from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
 from django.conf.urls.i18n import i18n_patterns
 from . import views
+from .feeds import LatestPostsFeed
 from .sitemaps import StaticViewSitemap, BlogPostSitemap
 
 sitemaps = {
@@ -30,6 +31,7 @@ urlpatterns += i18n_patterns(
     path('sponsors/', views.sponsors, name='sponsors'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     path('blog/', views.blog_list, name='blog'),
+    path('blog/feed/', LatestPostsFeed(), name='blog_rss'),
     path('blog/<slug:slug>/', views.blog_detail, name='blog_detail'),
     path('blog/<slug:slug>/comment/', views.blog_comment_add, name='blog_comment_add'),
     path('blog/<slug:slug>/like/', views.blog_like_toggle, name='blog_like_toggle'),
