@@ -564,10 +564,44 @@ def _send_order_confirmation(order):
 def account(request):
     """User account / profile page."""
     from django.db.models import Q
+    from allauth.socialaccount.models import SocialAccount
+
     recent_orders = Order.objects.filter(
         Q(user=request.user) | Q(email=request.user.email)
     ).exclude(status='PENDING').distinct().order_by('-created_at')[:5]
-    return render(request, 'account/account.html', {'recent_orders': recent_orders})
+
+    social = {a.provider: a for a in SocialAccount.objects.filter(user=request.user)}
+    google = social.get('google')
+    strava = social.get('strava')
+
+    # Best available avatar
+    avatar_url = ''
+    if google:
+        avatar_url = google.get_avatar_url() or ''
+    if not avatar_url and strava:
+        avatar_url = strava.extra_data.get('profile_medium', '')
+
+    # Best available display name
+    display_name = request.user.get_full_name()
+    if not display_name and strava:
+        ed = strava.extra_data
+        display_name = f"{ed.get('firstname', '')} {ed.get('lastname', '')}".strip()
+    if not display_name:
+        display_name = request.user.username
+
+    # Best available email label
+    email = request.user.email
+    if not email and strava:
+        email = strava.extra_data.get('username', '')
+
+    return render(request, 'account/account.html', {
+        'recent_orders': recent_orders,
+        'google_account': google,
+        'strava_account': strava,
+        'avatar_url': avatar_url,
+        'display_name': display_name,
+        'email': email,
+    })
 
 
 @login_required
