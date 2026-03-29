@@ -270,9 +270,18 @@ def blog_like_toggle(request, slug):
     return redirect('blog_detail', slug=slug)
 
 
-# ── Shop Views ───────────────────────────────────────────────────────────────
+# ── Shop Views (hidden pending Stripe decision — all redirect to home) ───────
+_SHOP_HIDDEN = True
+
+
+def _shop_redirect(request):
+    return redirect('home')
+
+
+
 
 def shop_landing(request):
+    if _SHOP_HIDDEN: return _shop_redirect(request)
     """Product listing with optional category filter."""
     category = request.GET.get('category', '')
     products = Product.objects.filter(is_active=True)
@@ -289,6 +298,7 @@ def shop_landing(request):
 
 
 def product_detail(request, slug):
+    if _SHOP_HIDDEN: return _shop_redirect(request)
     """Single product page with image gallery and variant picker."""
     product = get_object_or_404(Product, slug=slug, is_active=True)
     variants = product.variants.all()
@@ -351,6 +361,7 @@ def _get_cart_items(request):
 
 
 def cart(request):
+    if _SHOP_HIDDEN: return _shop_redirect(request)
     """Cart page — view and update items."""
     if request.method == 'POST':
         action = request.POST.get('action')
@@ -391,6 +402,7 @@ def cart(request):
 
 @require_POST
 def cart_add(request):
+    if _SHOP_HIDDEN: return _shop_redirect(request)
     """Add a variant to the session cart."""
     sku = request.POST.get('sku')
     try:
@@ -423,6 +435,7 @@ def cart_add(request):
 
 @require_POST
 def checkout(request):
+    if _SHOP_HIDDEN: return _shop_redirect(request)
     """Create a Stripe Checkout Session and redirect."""
     items, subtotal = _get_cart_items(request)
     if not items:
@@ -496,6 +509,7 @@ def checkout(request):
 
 
 def checkout_success(request):
+    if _SHOP_HIDDEN: return _shop_redirect(request)
     """Order confirmation page after successful Stripe payment."""
     session_id = request.GET.get('session_id', '')
     order = None
@@ -524,6 +538,7 @@ def checkout_success(request):
 
 
 def checkout_cancel(request):
+    if _SHOP_HIDDEN: return _shop_redirect(request)
     """Checkout was cancelled — return to cart."""
     return render(request, 'shop/checkout_cancel.html')
 
@@ -719,6 +734,7 @@ def account(request):
 
 @login_required
 def order_list(request):
+    if _SHOP_HIDDEN: return _shop_redirect(request)
     """User's order history — matches by user FK or email."""
     from django.db.models import Q
     orders = Order.objects.filter(
@@ -729,6 +745,7 @@ def order_list(request):
 
 @login_required
 def order_detail(request, order_number):
+    if _SHOP_HIDDEN: return _shop_redirect(request)
     """Single order detail — accessible by owner user or matching email."""
     from django.db.models import Q
     order = get_object_or_404(

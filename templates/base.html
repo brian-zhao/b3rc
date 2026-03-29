@@ -116,7 +116,7 @@
                         <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
                         <li><a href="{% url 'about' %}">{% trans "About" %}</a></li>
                         <li><a href="{% url 'activities' %}">{% trans "Programs" %}</a></li>
-                        <li><a href="{% url 'shop' %}">{% trans "Shop" %}</a></li>
+                        {# Shop hidden pending Stripe decision #}
                         <li><a href="{% url 'find_us' %}">{% trans "Contact" %}</a></li>
                         <li><a href="{% url 'sponsors' %}">{% trans "Partners" %}</a></li>
                         <li><a href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a></li>
@@ -169,7 +169,7 @@
         <a href="{% url 'home' %}">{% trans "Home" %}</a>
         <a href="{% url 'about' %}">{% trans "About" %}</a>
         <a href="{% url 'activities' %}">{% trans "Programs" %}</a>
-        <a href="{% url 'shop' %}">{% trans "Shop" %}</a>
+        {# Shop hidden pending Stripe decision #}
         <a href="{% url 'find_us' %}">{% trans "Contact" %}</a>
         <a href="{% url 'sponsors' %}">{% trans "Partners" %}</a>
         <a href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a>

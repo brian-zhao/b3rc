@@ -26,37 +26,7 @@
             <a href="{% url 'account_logout' %}" class="btn-secondary account-signout-btn">{% trans "Sign Out" %}</a>
         </div>
 
-        <!-- Recent orders -->
-        <div class="account-section">
-            <div class="account-section-header">
-                <h2 class="account-section-title">{% trans "Recent Orders" %}</h2>
-                <a href="{% url 'order_list' %}" class="account-section-link">{% trans "View all" %} &rarr;</a>
-            </div>
-
-            {% if recent_orders %}
-            <div class="orders-list">
-                {% for order in recent_orders %}
-                <a href="{% url 'order_detail' order.order_number %}" class="order-card">
-                    <div class="order-card-header">
-                        <span class="order-number">{{ order.order_number }}</span>
-                        <span class="order-status status-{{ order.status|lower }}">{{ order.get_status_display }}</span>
-                    </div>
-                    <div class="order-card-body">
-                        <span class="order-date">{{ order.created_at|date:"d M Y" }}</span>
-                        <span class="order-items-count">{{ order.items.count }} item{{ order.items.count|pluralize }}</span>
-                        <span class="order-total">${{ order.total }} AUD</span>
-                    </div>
-                    <div class="order-card-shipping">{{ order.get_shipping_method_display }}</div>
-                </a>
-                {% endfor %}
-            </div>
-            {% else %}
-            <div class="account-empty">
-                <p>{% trans "No orders yet." %}</p>
-                <a href="{% url 'shop' %}" class="btn-primary">{% trans "Browse the Shop" %}</a>
-            </div>
-            {% endif %}
-        </div>
+        {# Shop section hidden pending Stripe decision #}
 
         <!-- Leaderboard shortcut -->
         <div class="account-section">
