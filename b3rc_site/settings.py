@@ -25,7 +25,22 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-insecure-dev-key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'b3rc.com.au',
+    'www.b3rc.com.au',
+    'b3rc.store',
+    'www.b3rc.store',
+    'b3rc-467810.ts.r.appspot.com',
+    'localhost',
+    '127.0.0.1',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://b3rc.com.au',
+    'https://www.b3rc.com.au',
+    'https://b3rc.store',
+    'https://www.b3rc.store',
+]
 
 
 # Application definition

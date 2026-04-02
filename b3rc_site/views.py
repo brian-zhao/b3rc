@@ -761,6 +761,11 @@ def robots_txt(request):
     lines = [
         'User-agent: *',
         'Allow: /',
+        'Disallow: /admin/',
+        'Disallow: /accounts/',
+        'Disallow: /account/',
+        'Disallow: /shop/cart/',
+        'Disallow: /shop/checkout/',
         '',
         f'Sitemap: {request.scheme}://{request.get_host()}/sitemap.xml',
     ]
