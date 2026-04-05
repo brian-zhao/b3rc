@@ -52,6 +52,61 @@ def _week_bounds(week_offset=0):
     return start, end
 
 
+# ── Service Token ─────────────────────────────────────────────────────────
+
+def get_service_token():
+    """
+    Return a valid access token using the stored service refresh token.
+    Auto-refreshes when expired and persists the new tokens to Firestore
+    so the latest refresh token survives across restarts.
+    """
+    cached = _mem_get('service_token')
+    if cached:
+        return cached
+
+    db = firestore_service.get_client()
+    ref = db.collection('strava_cache').document('service_token')
+    doc = ref.get()
+    if doc.exists:
+        data = doc.to_dict()
+        expires_at = data.get('expires_at')
+        if expires_at and expires_at > datetime.now(timezone.utc):
+            _mem_set('service_token', data['access_token'])
+            return data['access_token']
+        # Prefer the refresh token stored in Firestore (may be newer than env var)
+        refresh_token = data.get('refresh_token') or settings.STRAVA_REFRESH_TOKEN
+    else:
+        refresh_token = settings.STRAVA_REFRESH_TOKEN
+
+    if not refresh_token:
+        logger.error('STRAVA_REFRESH_TOKEN not configured')
+        return None
+
+    try:
+        resp = requests.post('https://www.strava.com/oauth/token', data={
+            'client_id': settings.STRAVA_CLIENT_ID,
+            'client_secret': settings.STRAVA_CLIENT_SECRET,
+            'grant_type': 'refresh_token',
+            'refresh_token': refresh_token,
+        }, timeout=10)
+        resp.raise_for_status()
+        data = resp.json()
+
+        access_token = data['access_token']
+        expires_at = datetime.fromtimestamp(data['expires_at'], tz=timezone.utc)
+
+        ref.set({
+            'access_token': access_token,
+            'refresh_token': data['refresh_token'],
+            'expires_at': expires_at,
+        })
+        _mem_set('service_token', access_token)
+        return access_token
+    except Exception:
+        logger.exception('Failed to refresh Strava service token')
+        return None
+
+
 # ── Club Info ──────────────────────────────────────────────────────────────
 
 def get_club_info(access_token):

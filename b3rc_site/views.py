@@ -40,54 +40,44 @@ def sponsors(request):
 
 
 def leaderboard(request):
-    """Club leaderboard — requires Strava login."""
+    """Club leaderboard — public, powered by a single service token."""
     from . import strava_service
     from datetime import datetime, timezone
+
+    access_token = strava_service.get_service_token()
 
     context = {
         'club_info': None,
         'this_week': [],
         'last_week': [],
-        'recent_activities': [],
-        'strava_connected': False,
+        'strava_connected': bool(access_token),
         'tracking_started_at': None,
         'tracking_days': 0,
+        'current_user_name': '',
     }
 
-    if not request.user.is_authenticated:
-        return render(request, 'leaderboard.html', context)
+    if access_token:
+        context['club_info'] = strava_service.get_club_info(access_token)
+        strava_service.accumulate_club_activities(access_token)
+        context['this_week'] = strava_service.build_weekly_leaderboard(week_offset=0)
+        context['last_week'] = strava_service.build_weekly_leaderboard(week_offset=1)
+        started = strava_service.get_tracking_started_at()
+        if started:
+            context['tracking_started_at'] = started
+            context['tracking_days'] = (datetime.now(timezone.utc) - started).days
 
-    access_token = _get_strava_token(request.user)
-    if not access_token:
-        return render(request, 'leaderboard.html', context)
-
-    context['strava_connected'] = True
-    context['club_info'] = strava_service.get_club_info(access_token)
-
-    # Current user's display name in leaderboard (e.g. "Brian Z.")
-    try:
-        from allauth.socialaccount.models import SocialAccount
-        strava_account = SocialAccount.objects.get(user=request.user, provider='strava')
-        extra = strava_account.extra_data
-        firstname = extra.get('firstname', '')
-        lastname = extra.get('lastname', '')
-        lastname_initial = (lastname[0] + '.') if lastname else ''
-        context['current_user_name'] = f'{firstname} {lastname_initial}'.strip()
-    except Exception:
-        context['current_user_name'] = ''
-
-    # Accumulate new activities into Firestore log
-    strava_service.accumulate_club_activities(access_token)
-
-    # Weekly leaderboards from Firestore log
-    context['this_week'] = strava_service.build_weekly_leaderboard(week_offset=0)
-    context['last_week'] = strava_service.build_weekly_leaderboard(week_offset=1)
-
-    # How long we've been tracking (affects whether weekly data is meaningful)
-    started = strava_service.get_tracking_started_at()
-    if started:
-        context['tracking_started_at'] = started
-        context['tracking_days'] = (datetime.now(timezone.utc) - started).days
+    # Resolve the logged-in user's display name for row highlighting (optional)
+    if request.user.is_authenticated:
+        try:
+            from allauth.socialaccount.models import SocialAccount
+            strava_account = SocialAccount.objects.get(user=request.user, provider='strava')
+            extra = strava_account.extra_data
+            firstname = extra.get('firstname', '')
+            lastname = extra.get('lastname', '')
+            lastname_initial = (lastname[0] + '.') if lastname else ''
+            context['current_user_name'] = f'{firstname} {lastname_initial}'.strip()
+        except Exception:
+            pass
 
     return render(request, 'leaderboard.html', context)
 

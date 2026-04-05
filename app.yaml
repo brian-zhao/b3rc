@@ -18,6 +18,7 @@ env_variables:
   STRAVA_CLIENT_ID: "217126"
   STRAVA_CLIENT_SECRET: "2269ae88ca9230ff9c5e4cb7ab33562cd2f7c771"
   STRAVA_CLUB_ID: "1331912"
+  STRAVA_REFRESH_TOKEN: "0f3b294a9c2a3689f1753d8e4df5e3fd7b4982a8"
   # Social auth credentials — set real values via:
   #   gcloud app deploy --set-env-vars="GOOGLE_CLIENT_ID=...,GOOGLE_CLIENT_SECRET=..."
   # or use a separate app.secrets.yaml (gitignored) merged at deploy time.
