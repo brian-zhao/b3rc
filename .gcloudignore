@@ -13,10 +13,20 @@
 .git
 .gitignore
 
-# Python pycache:
+# Virtual environments — App Engine installs from requirements.txt
+venv/
+env/
+.venv/
+
+# Python pycache and compiled files
 __pycache__/
+*.pyc
+
 # Ignored by the build system
 /setup.cfg
 
 # Local SQLite database — production uses /tmp
 db.sqlite3
+
+# Local media uploads — not needed at runtime
+media/
