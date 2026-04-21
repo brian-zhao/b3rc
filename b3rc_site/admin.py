@@ -4,7 +4,7 @@ from django.utils.html import format_html
 from .models import (
     Announcement,
     SiteMedia, CarouselImage,
-    Post, PostComment,
+    Post, PostComment, BlogImage,
     Product, ProductImage, ProductVariant,
     Order, OrderItem,
 )
@@ -102,6 +102,42 @@ class PostAdmin(admin.ModelAdmin):
         elif obj.status == 'DRAFT':
             obj.published_at = None
         super().save_model(request, obj, form, change)
+
+
+@admin.register(BlogImage)
+class BlogImageAdmin(admin.ModelAdmin):
+    list_display  = ('thumbnail', 'caption', 'uploaded_at', 'snippet')
+    readonly_fields = ('uploaded_at', 'markdown_snippet', 'image_preview')
+    fields = ('image', 'caption', 'uploaded_at', 'image_preview', 'markdown_snippet')
+    search_fields = ('caption',)
+
+    def thumbnail(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="height:40px;border-radius:4px;">', obj.image.url)
+        return '—'
+    thumbnail.short_description = ''
+
+    def snippet(self, obj):
+        return format_html('<code style="font-size:11px;">{}</code>', obj.markdown)
+    snippet.short_description = 'Markdown snippet'
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="max-height:200px;border-radius:6px;">', obj.image.url)
+        return '—'
+    image_preview.short_description = 'Preview'
+
+    def markdown_snippet(self, obj):
+        if not obj.pk:
+            return '— save first to generate snippet —'
+        return format_html(
+            '<input type="text" value="{}" readonly '
+            'style="width:100%;font-family:monospace;font-size:12px;padding:6px 8px;'
+            'border:1px solid #ccc;border-radius:4px;background:#f8f8f8;" '
+            'onclick="this.select()">',
+            obj.markdown,
+        )
+    markdown_snippet.short_description = 'Markdown snippet (click to select)'
 
 
 @admin.register(PostComment)

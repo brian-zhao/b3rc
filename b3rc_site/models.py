@@ -133,6 +133,25 @@ class Post(models.Model):
         return ''
 
 
+class BlogImage(models.Model):
+    image   = models.ImageField(upload_to='blog/images/')
+    caption = models.CharField(max_length=200, blank=True, help_text='Optional — used as alt text and markdown caption')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-uploaded_at']
+        verbose_name = 'Blog Image'
+        verbose_name_plural = 'Blog Images'
+
+    def __str__(self):
+        return self.caption or self.image.name
+
+    @property
+    def markdown(self):
+        alt = self.caption or 'image'
+        return f'![{alt}]({self.image.url})'
+
+
 # ── Shop Models ──────────────────────────────────────────────────────────────
 
 class Product(models.Model):
