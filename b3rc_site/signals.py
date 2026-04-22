@@ -82,6 +82,28 @@ def carousel_image_deleted(sender, instance, **kwargs):
 
 # ── Blog signals ─────────────────────────────────────────────────────────────
 
+@receiver(post_save, sender='b3rc_site.BlogImage')
+def blog_image_saved(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.save_blog_image(instance)
+    except Exception:
+        logger.exception('Failed to sync BlogImage to Firestore')
+
+
+@receiver(post_delete, sender='b3rc_site.BlogImage')
+def blog_image_deleted(sender, instance, **kwargs):
+    if _syncing:
+        return
+    try:
+        from . import firestore_service
+        firestore_service.delete_blog_image(instance.pk)
+    except Exception:
+        logger.exception('Failed to delete BlogImage from Firestore')
+
+
 @receiver(post_save, sender='b3rc_site.Post')
 def post_saved(sender, instance, **kwargs):
     if _syncing:

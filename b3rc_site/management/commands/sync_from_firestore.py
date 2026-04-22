@@ -12,7 +12,7 @@ from b3rc_site import firestore_service, signals
 from b3rc_site.models import (
     Announcement,
     SiteMedia, CarouselImage,
-    Post, PostComment, PostLike,
+    Post, PostComment, PostLike, BlogImage,
     Product, ProductImage, ProductVariant, Order, OrderItem,
 )
 
@@ -25,6 +25,7 @@ class Command(BaseCommand):
         signals._syncing = True
         try:
             self._sync_announcements()
+            self._sync_blog_images()
             self._sync_posts()
             self._sync_post_comments()
             self._sync_post_likes()
@@ -227,6 +228,24 @@ class Command(BaseCommand):
             )
             count += 1
         self.stdout.write(f'Synced {count} OrderItem record(s) from Firestore')
+
+    def _sync_blog_images(self):
+        docs = firestore_service.list_blog_images()
+        count = 0
+        for doc in docs:
+            uploaded_at = doc.get('uploaded_at')
+            if isinstance(uploaded_at, str):
+                uploaded_at = parse_datetime(uploaded_at)
+            BlogImage.objects.update_or_create(
+                pk=doc['pk'],
+                defaults={
+                    'image': doc.get('image', ''),
+                    'caption': doc.get('caption', ''),
+                    'uploaded_at': uploaded_at,
+                },
+            )
+            count += 1
+        self.stdout.write(f'Synced {count} BlogImage record(s) from Firestore')
 
     def _sync_posts(self):
         from datetime import date

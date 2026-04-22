@@ -200,6 +200,28 @@ def list_order_items():
     return [doc.to_dict() for doc in db.collection('order_items').stream()]
 
 
+# ── BlogImage ──
+
+def save_blog_image(instance):
+    db = get_client()
+    db.collection('blog_images').document(str(instance.pk)).set({
+        'pk': instance.pk,
+        'image': instance.image.name if instance.image else '',
+        'caption': instance.caption,
+        'uploaded_at': instance.uploaded_at,
+    })
+
+
+def delete_blog_image(pk):
+    db = get_client()
+    db.collection('blog_images').document(str(pk)).delete()
+
+
+def list_blog_images():
+    db = get_client()
+    return [doc.to_dict() for doc in db.collection('blog_images').stream()]
+
+
 # ── Post ──
 
 def save_post(instance):
